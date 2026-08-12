@@ -5,6 +5,7 @@ import { getAllPosts } from "@/lib/posts";
 export const metadata: Metadata = {
   title: "Blog",
   description: "Guides and notes on natural writing and authentic-looking photography.",
+  alternates: { canonical: "/blog" },
 };
 
 export default function BlogIndexPage() {

@@ -1,4 +1,9 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 const BEFORE_EXAMPLE = `In today's fast-paced digital landscape, it is important to note that effective communication plays a crucial role in the overall success of any organization. Furthermore, it is essential to leverage synergies across all departments in order to achieve optimal outcomes.`;
 

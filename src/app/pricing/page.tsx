@@ -4,6 +4,7 @@ import WaitlistForm from "@/components/WaitlistForm";
 export const metadata: Metadata = {
   title: "Pricing",
   description: "Humanwords is free to use. See what's included and what's coming next.",
+  alternates: { canonical: "/pricing" },
 };
 
 const FREE_FEATURES = [

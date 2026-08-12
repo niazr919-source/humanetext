@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Terms of Service",
   description: "Terms for using Humanwords, including content ownership, advertising, and usage limits.",
+  alternates: { canonical: "/terms" },
 };
 
 export default function TermsPage() {

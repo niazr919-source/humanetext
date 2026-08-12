@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description: "How Humanwords handles the text and photos you submit, and how cookies and advertising are used on this site.",
+  alternates: { canonical: "/privacy" },
 };
 
 export default function PrivacyPage() {

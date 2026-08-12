@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Contact",
   description: "How to reach Humanwords with questions, feedback, or a bug report.",
+  alternates: { canonical: "/contact" },
 };
 
 const CONTACT_EMAIL = "hello@humanetext.com";

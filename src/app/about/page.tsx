@@ -4,6 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "About",
   description: "What Humanwords is, why it exists, and how the Text and Photo Humanizer tools work.",
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {
