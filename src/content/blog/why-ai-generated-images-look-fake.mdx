@@ -1,0 +1,50 @@
+---
+title: "Why AI-Generated Images Still Look 'Off' (And How to Fix the Common Tells)"
+description: "The specific visual tells that make AI-generated images look synthetic — from unnatural smoothness to lighting inconsistencies — and practical fixes for each."
+date: "2026-08-02"
+keywords: "ai images look fake why, ai generated image tells, why do ai images look off, ai image realism"
+---
+
+AI image generation has gotten remarkably good at rendering individual details correctly — faces, objects, and scenes that hold up to a quick glance. And yet something about a lot of AI-generated images still reads as synthetic on a second look, even when nothing is obviously wrong. Here's what's actually causing that impression, broken into the tells that matter most.
+
+## 1. Unnatural smoothness
+
+This is the biggest one. Real photographs — even ones taken on excellent modern cameras — carry sensor noise, fine texture, and micro-imperfections across nearly every surface. AI-generated images often render surfaces (skin, walls, fabric, sky) with a smoothness that no camera sensor produces at normal settings. The eye has learned to associate that level of smoothness with illustration or render, not photography, even without consciously identifying why.
+
+**Fix:** Add back luminance-aware grain and a light sharpening pass. This is exactly the gap between a synthetic-looking render and something that reads as a genuine photograph — see our deeper explanation of [what film grain is and why it matters](/blog/what-is-film-grain-photography).
+
+## 2. Lighting that's *too* consistent
+
+Real-world lighting is messy: multiple light sources at different color temperatures, shadows that don't perfectly match a single light direction, reflected light bouncing unevenly off nearby surfaces. AI-generated images often default to a single, coherent lighting setup that's technically "correct" in the sense that shadows fall the right direction, but too clean in the sense that real environments rarely have such uniform lighting.
+
+**Fix:** Where possible, prompt for or select generations with mixed or slightly imperfect lighting — a secondary light source, a color cast from a nearby surface, a shadow that isn't perfectly crisp.
+
+## 3. Textures that repeat or don't hold up close
+
+Zoom into an AI-generated image of, say, a brick wall or a patch of grass, and you'll sometimes find the texture pattern repeating in a way that's subtly too regular, or dissolving into an indistinct blur rather than resolving into individual, slightly-irregular blades of grass or bricks. Real-world texture is irregular at every scale — no two bricks are identical, no patch of grass has a repeating pattern.
+
+**Fix:** This one's harder to fix after generation. Higher-resolution generation and post-processing sharpening help, but the underlying irregularity is best addressed at the generation or selection stage — look for outputs where close-up texture doesn't visibly repeat.
+
+## 4. Perfect symmetry in things that shouldn't be symmetrical
+
+Faces, in particular, are a common source of this tell — AI-generated faces are often slightly too symmetrical, since real human faces have measurable asymmetry (one eye slightly different from the other, a nose that isn't perfectly centered). The same applies to hands, foliage, and other organic subjects where perfect regularity reads as synthetic.
+
+**Fix:** Again, mostly a generation-stage fix, but selecting outputs with visible minor asymmetry helps considerably.
+
+## 5. Depth of field that doesn't match a real lens
+
+Real camera lenses produce depth-of-field blur (bokeh) with specific optical characteristics — the blur shape, the way out-of-focus highlights render, the falloff between sharp and blurred areas. AI-generated "blurred background" effects sometimes approximate this reasonably well but can also produce blur that looks more like a digital filter than genuine optical defocus — too uniform, or with an unnatural transition between sharp and blurred regions.
+
+**Fix:** Look for generations with more natural-looking bokeh, or apply post-processing that mimics real lens characteristics rather than a flat Gaussian blur.
+
+## 6. Missing sensor and compression artifacts
+
+Real digital photos, especially ones that have been through a phone camera pipeline or shared on the web, pick up subtle JPEG compression artifacts and chroma noise that AI-generated images often lack entirely. An image with zero compression artifacts, at a resolution and file size that suggests it should have some, can read as synthetic simply through that absence.
+
+**Fix:** A final export pass with realistic JPEG compression and chroma subsampling — rather than a lossless or minimally-compressed export — adds back this expected texture.
+
+## Putting it together
+
+None of these tells are individually damning — a single AI-generated image might get away with unnaturally smooth skin if the lighting and texture elsewhere are convincing. It's the combination, much like with AI-generated text, that gives the game away: multiple "too clean" signals stacking up in the same image.
+
+Our [Photo Humanizer](/humanize-photo) is built to address the two most fixable tells after generation — smoothness and missing sensor artifacts — by adding luminance-aware grain, a light sharpening pass for restored micro-detail, and realistic JPEG compression on export. It won't rebuild irregular textures or fix lighting from scratch, but for the most common and most noticeable tell — that telltale digital smoothness — it closes most of the gap between "obviously generated" and "looks like a real photo."

@@ -1,0 +1,47 @@
+---
+title: "How AI Content Detectors Actually Work (And Why They're Not Always Right)"
+description: "A plain-language explanation of perplexity, burstiness, and the statistical signals AI detectors use — and why false positives happen so often."
+date: "2026-06-23"
+keywords: "how do ai detectors work, ai content detector explained, perplexity burstiness, ai detector false positive"
+---
+
+AI content detectors get treated like lie detectors — a tool that reveals a hidden truth about how a piece of text was made. In reality, they're statistical classifiers making an educated guess, and understanding how that guess works explains both why detectors catch what they catch, and why they get it wrong so often.
+
+## The core idea: predictability
+
+Every AI detector is built around a simple observation: language models generate text by picking the most statistically likely next word, over and over. Human writing is less predictable — we make idiosyncratic word choices, take unexpected turns, and write with more variation than a model trained to produce "safe" output.
+
+Detectors try to quantify that difference using two main signals.
+
+### Perplexity
+
+Perplexity measures how "surprised" a language model is by a given sequence of words. Low perplexity means the text closely matches what a model would predict — smooth, expected, statistically average phrasing. High perplexity means the text takes turns a model wouldn't predict, which is more typical of human writing (we use unusual word combinations, personal references, and quirky phrasing that don't follow the statistically "safe" path).
+
+AI-generated text tends to score low on perplexity, because that's literally what the model was optimized to produce: the most probable continuation at every step.
+
+### Burstiness
+
+Burstiness measures variation *within* a piece of text — specifically, how much sentence length and structure fluctuate. Human writing is "bursty": we write a short sentence, then a long one, then a fragment, then a complex compound sentence with three clauses. AI-generated text tends to be more uniform, with sentences clustering around a similar length and structure throughout.
+
+A detector combines low perplexity and low burstiness as its strongest signal that text was likely AI-generated.
+
+## Why false positives happen
+
+Here's the problem: perplexity and burstiness are proxies, not proof. They correlate with AI generation, but plenty of things also produce low-perplexity, low-burstiness text that has nothing to do with AI:
+
+- **Non-native English writers** often use more predictable, textbook-standard phrasing, which reads as "low perplexity" to a detector even though a person wrote every word.
+- **Technical and academic writing** is often deliberately uniform and formal by convention, which can trigger the same signals.
+- **Heavily edited writing** — text that's been proofread and tightened until it's clean and consistent — can lose the natural unevenness that signals "human" to a detector.
+- **Short text samples** don't give a detector enough signal to be confident, so shorter pieces are especially prone to misclassification in either direction.
+
+This is why every major detector, including the tools built into services like Turnitin, publishes disclaimers that their score is a probability, not a verdict, and shouldn't be used as the sole basis for a decision.
+
+## What detectors are actually good at
+
+Despite the false-positive problem, detectors aren't useless. They're reasonably reliable at catching *unedited*, directly-pasted model output at scale — the kind of text that hasn't been touched by a human editor at all. The uniform rhythm and statistical smoothness of raw model output is a real, detectable pattern; it's the edge cases (heavily edited text, non-native writing, short samples) where accuracy drops off.
+
+## What this means if you write with AI assistance
+
+If you use AI tools as part of your writing process — for drafting, brainstorming, or getting past a blank page — the practical takeaway isn't about tricking a detector. It's that genuinely edited writing, with real variation in rhythm and specific, concrete detail, naturally moves away from the statistical patterns detectors are built to catch. That's a side effect of writing that's actually good, not a workaround.
+
+Our [Text Humanizer](/humanize-text) is built around that same principle: it varies sentence rhythm and removes the hedging, templated phrasing that makes text statistically uniform in the first place — the same qualities that make writing read naturally to a person also happen to move it away from a detector's core signals. For the specific patterns worth fixing, see [why AI writing sounds robotic](/blog/why-ai-writing-sounds-robotic) and [AI vs. human writing: the real differences](/blog/ai-vs-human-writing-real-differences).
