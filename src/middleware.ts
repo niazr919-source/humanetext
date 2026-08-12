@@ -7,8 +7,13 @@ export function middleware(request: NextRequest) {
   const host = request.headers.get("host") ?? "";
 
   if (host.startsWith("www.")) {
+    // Strip "www." and any port — reverse proxies (Hostinger included) often
+    // pass their internal port through in the Host header, which must never
+    // end up in a public-facing redirect URL.
+    const hostname = host.slice(4).split(":")[0];
     const url = request.nextUrl.clone();
-    url.host = host.slice(4);
+    url.hostname = hostname;
+    url.port = "";
     return NextResponse.redirect(url, 301);
   }
 
