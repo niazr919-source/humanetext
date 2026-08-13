@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { Geist, Geist_Mono, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
@@ -92,11 +91,15 @@ export default function RootLayout({
         <main className="flex flex-1 flex-col">{children}</main>
         <Footer />
         {ADSENSE_CLIENT_ID && (
-          <Script
+          // Plain, unprocessed <script> tag on purpose — Next.js's <Script>
+          // component rewrites this into a <link rel="preload"> instead of a
+          // literal <script> element, which fails AdSense's site-verification
+          // check (it does a simple text match on the raw HTML for the exact
+          // tag it gave you to paste).
+          <script
             async
             src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`}
             crossOrigin="anonymous"
-            strategy="afterInteractive"
           />
         )}
       </body>
