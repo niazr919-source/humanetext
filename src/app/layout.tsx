@@ -25,22 +25,22 @@ const ADSENSE_CLIENT_ID = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Humanwords — Make AI content sound and look natural",
-    template: "%s | Humanwords",
+    default: "Humanetext — Make AI content sound and look natural",
+    template: "%s | Humanetext",
   },
   description:
     "Rewrite robotic AI text so it reads naturally, and add authentic photographic texture to AI images. Free to use.",
   openGraph: {
-    title: "Humanwords — Make AI content sound and look natural",
+    title: "Humanetext — Make AI content sound and look natural",
     description:
       "Rewrite robotic AI text so it reads naturally, and add authentic photographic texture to AI images. Free to use.",
     url: SITE_URL,
-    siteName: "Humanwords",
+    siteName: "Humanetext",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Humanwords — Make AI content sound and look natural",
+    title: "Humanetext — Make AI content sound and look natural",
     description:
       "Rewrite robotic AI text so it reads naturally, and add authentic photographic texture to AI images.",
   },
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
 const ORG_JSON_LD = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "Humanwords",
+  name: "Humanetext",
   url: SITE_URL,
   description:
     "Free tools that rewrite AI-generated text to sound natural and add authentic camera-like texture to photos.",
@@ -59,7 +59,7 @@ const ORG_JSON_LD = {
 const WEBSITE_JSON_LD = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "Humanwords",
+  name: "Humanetext",
   url: SITE_URL,
   potentialAction: {
     "@type": "SearchAction",

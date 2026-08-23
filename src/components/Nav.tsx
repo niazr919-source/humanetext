@@ -6,8 +6,9 @@ import { useState } from "react";
 const LINKS = [
   { href: "/humanize-text", label: "Text" },
   { href: "/humanize-photo", label: "Photo" },
-  { href: "/pricing", label: "Pricing" },
   { href: "/blog", label: "Blog" },
+  { href: "/pricing", label: "Pricing" },
+  { href: "/about", label: "About" },
 ];
 
 export default function Nav() {
@@ -17,7 +18,7 @@ export default function Nav() {
     <header className="sticky top-0 z-40 border-b border-line bg-paper/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link href="/" className="font-display text-xl font-semibold tracking-tight">
-          Humanwords
+          Humanetext
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">

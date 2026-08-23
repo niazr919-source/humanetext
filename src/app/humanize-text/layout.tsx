@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 const APP_JSON_LD = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "Humanwords Text Humanizer",
+  name: "Humanetext Text Humanizer",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "Any (web browser)",
   url: `${SITE_URL}/humanize-text`,

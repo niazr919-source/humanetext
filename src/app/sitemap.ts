@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
-import { getAllPosts } from "@/lib/posts";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://humanetext.com";
+import { CATEGORIES, getAllPosts } from "@/lib/posts";
+import { SITE_URL } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
@@ -11,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/pricing",
     "/blog",
     "/about",
+    "/about/editorial",
     "/contact",
     "/privacy",
     "/terms",
@@ -19,10 +19,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(),
   }));
 
-  const postRoutes = getAllPosts().map((post) => ({
-    url: `${SITE_URL}/blog/${post.slug}`,
-    lastModified: post.date ? new Date(post.date) : new Date(),
+  const categoryRoutes = Object.keys(CATEGORIES).map((category) => ({
+    url: `${SITE_URL}/blog/category/${category}`,
+    lastModified: new Date(),
   }));
 
-  return [...staticRoutes, ...postRoutes];
+  const postRoutes = getAllPosts().map((post) => ({
+    url: `${SITE_URL}/blog/${post.slug}`,
+    lastModified: post.updated
+      ? new Date(post.updated)
+      : post.date
+        ? new Date(post.date)
+        : new Date(),
+  }));
+
+  return [...staticRoutes, ...categoryRoutes, ...postRoutes];
 }

@@ -3,18 +3,18 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "What Humanwords is, why it exists, and how the Text and Photo Humanizer tools work.",
+  description: "What Humanetext is, why it exists, and how the Text and Photo Humanizer tools work.",
   alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {
   return (
     <div className="mx-auto w-full max-w-2xl px-6 py-16">
-      <h1 className="font-display text-4xl font-semibold tracking-tight">About Humanwords</h1>
+      <h1 className="font-display text-4xl font-semibold tracking-tight">About Humanetext</h1>
 
       <div className="prose prose-neutral mt-8 max-w-none prose-headings:font-display prose-a:text-accent-dark">
         <p>
-          Humanwords builds free tools that help people make AI-assisted content
+          Humanetext builds free tools that help people make AI-assisted content
           read and look more natural. We started with two problems we kept
           running into ourselves: AI-drafted text that was technically correct
           but rhythmically flat, and AI-generated or over-processed images that
@@ -58,6 +58,17 @@ export default function AboutPage() {
           See <Link href="/pricing">pricing</Link> for details, or read more
           on the <Link href="/blog">blog</Link> about natural writing and
           authentic-looking photography.
+        </p>
+
+        <h2>Who writes this</h2>
+        <p>
+          Alongside the tools, we publish long-form guides on natural writing,
+          AI detection, and photographic texture. Those articles are written and
+          maintained in-house, tested against our own sample text and images,
+          and revised when the underlying tools change. How we research, correct,
+          and disclose is set out in full on our{" "}
+          <Link href="/about/editorial">editorial standards</Link> page — including
+          our policy on advertising and on writing about our own products.
         </p>
 
         <h2>Get in touch</h2>

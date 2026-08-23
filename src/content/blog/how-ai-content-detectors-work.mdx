@@ -2,6 +2,8 @@
 title: "How AI Content Detectors Actually Work (And Why They're Not Always Right)"
 description: "A plain-language explanation of perplexity, burstiness, and the statistical signals AI detectors use — and why false positives happen so often."
 date: "2026-06-23"
+updated: "2026-08-23"
+category: "detection"
 keywords: "how do ai detectors work, ai content detector explained, perplexity burstiness, ai detector false positive"
 ---
 
@@ -45,3 +47,51 @@ Despite the false-positive problem, detectors aren't useless. They're reasonably
 If you use AI tools as part of your writing process — for drafting, brainstorming, or getting past a blank page — the practical takeaway isn't about tricking a detector. It's that genuinely edited writing, with real variation in rhythm and specific, concrete detail, naturally moves away from the statistical patterns detectors are built to catch. That's a side effect of writing that's actually good, not a workaround.
 
 Our [Text Humanizer](/humanize-text) is built around that same principle: it varies sentence rhythm and removes the hedging, templated phrasing that makes text statistically uniform in the first place — the same qualities that make writing read naturally to a person also happen to move it away from a detector's core signals. For the specific patterns worth fixing, see [why AI writing sounds robotic](/blog/why-ai-writing-sounds-robotic) and [AI vs. human writing: the real differences](/blog/ai-vs-human-writing-real-differences).
+
+## The detector landscape, and why they disagree
+
+There is no single detection method. What gets marketed as "AI detection" covers several different approaches with different failure modes, which is a large part of why running the same passage through three tools returns three answers.
+
+**Perplexity-based classifiers** are the approach described above. They run your text through a language model, measure how surprised it is, and threshold the result. Most free detectors work this way. They are cheap to build and inherit every weakness of the proxy.
+
+**Fine-tuned classifiers** are trained directly on labelled datasets of human and machine text, learning whatever features separate the two in that dataset. These can outperform perplexity thresholds on text resembling their training data, and degrade sharply outside it. A classifier trained largely on student essays and GPT-3.5 output will behave unpredictably on technical documentation or a newer model's output.
+
+**Watermarking** is the only approach with a real theoretical basis. The generating model biases its word choices according to a secret key, embedding a statistical signature that a party holding the key can verify. It works — but it requires cooperation from the model provider, only detects that specific provider's output, and is defeated by paraphrasing. It cannot help with the general question of whether arbitrary text was machine-written.
+
+**Metadata and provenance** approaches sidestep detection entirely by attaching signed information about how content was created. C2PA and similar standards do this for images. This is the most promising direction for the long run, and it says nothing about text that carries no provenance data — which is nearly all text.
+
+Most commercial detectors combine the first two. Their disagreements are not a bug being ironed out; they reflect genuinely different models measuring genuinely different things.
+
+## Why accuracy claims are hard to believe
+
+Vendor accuracy figures — 99%, 98%, "less than 1% false positives" — should be read with three questions in mind.
+
+**Measured on what?** Benchmark datasets typically pair clean human text with unedited model output. Real submissions are messier: partially edited, second-language, heavily proofread, or written by someone imitating a formal register. Accuracy on a clean benchmark tells you little about accuracy on a real cohort.
+
+**At what threshold?** Any classifier trades false positives against false negatives. Quote a number without the operating threshold and you can make either look excellent. A detector tuned to catch nearly all machine text will flag far more innocent writing than the headline suggests.
+
+**Against which generation?** Detectors are benchmarked against the models available when the test ran. Each new generation produces text closer to human statistical distributions, so measured accuracy decays over time even with no change to the detector.
+
+Then there is the base rate. A detector with a genuine 1% false-positive rate, applied to 10,000 submissions of which 500 are actually machine-written, produces roughly 95 false accusations. The tool is working as specified. Ninety-five people are still wrongly accused.
+
+## The theoretical problem
+
+Beyond engineering, there is a reason to doubt this ever gets solved.
+
+Detection depends on machine text being statistically distinguishable from human text. But models are trained to imitate human text, and each generation does it better — the distributions converge by design. Work in this area has argued that as the two become sufficiently similar, no detector can do much better than chance without an unacceptable false-positive rate. Improving the model degrades the detector.
+
+Paraphrasing compounds it. Running machine output through a rewriting pass disrupts the statistical signature detectors rely on, which is why they can be defeated by simple means. That cuts both ways, and it is why we are explicit that our own [Text Humanizer](/humanize-text) is not a detection-evasion product: the same operation that makes a draft read better also erodes the signal, and treating that as a feature invites exactly the use we do not want.
+
+## What to do with a score
+
+For anyone acting on a detector result:
+
+**Treat it as a prompt, not a finding.** Turnitin's own guidance says its indicator should not be the sole basis for an academic integrity decision. A high score is a reason to ask a question, not to reach a conclusion.
+
+**Look at process evidence instead.** Version history, drafts, notes, and a conversation about the work are all more informative than a percentage. Someone who wrote a piece can say why the third section exists; someone who generated it cannot.
+
+**Weight the population.** If the writer is a non-native English speaker, the score means substantially less — the disparity is well documented, and we cover the mechanism in [why AI detectors fail non-native English speakers](/blog/why-ai-detectors-fail-non-native-speakers).
+
+**Do not act on short samples.** Below a few hundred words, these tools are close to guessing.
+
+If you are on the receiving end of an accusation, [our guide to defending your work](/blog/falsely-accused-of-using-ai) covers what to preserve and what to say.

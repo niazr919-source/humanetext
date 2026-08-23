@@ -55,7 +55,7 @@ export default function Home() {
             Make AI content sound and look natural
           </h1>
           <p className="mt-6 text-lg text-ink-soft sm:text-xl">
-            Humanwords rewrites robotic text into natural, varied prose, and adds
+            Humanetext rewrites robotic text into natural, varied prose, and adds
             authentic camera-like texture to photos — so your content reads and
             looks like it came from a person.
           </p>

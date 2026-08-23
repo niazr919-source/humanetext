@@ -1,4 +1,4 @@
-# Humanwords
+# Humanetext
 
 Free tools that make AI-generated content sound and look more natural:
 

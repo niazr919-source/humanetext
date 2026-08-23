@@ -2,6 +2,8 @@
 title: "15 Words and Phrases That Instantly Give Away AI Writing"
 description: "The specific words and phrases that overwhelmingly show up in AI-generated text — and what to use instead so your writing reads naturally."
 date: "2026-06-16"
+updated: "2026-08-23"
+category: "writing"
 keywords: "words ai overuses, ai writing phrases, chatgpt words, phrases that sound like ai"
 ---
 
@@ -56,3 +58,63 @@ A quick self-edit test: search your draft (Ctrl+F) for "leverage," "landscape," 
 ## Fixing this at scale
 
 Manually hunting for these phrases works for a single article, but it gets tedious fast if you're editing AI-assisted content regularly. Our [Text Humanizer](/humanize-text) rewrites exactly this kind of phrasing automatically — stripping hedging filler and generic abstractions while preserving your original meaning — so you can paste in a draft and get back something that doesn't trip these tells. For the structural side of the problem (not just word choice), see [why AI writing sounds robotic](/blog/why-ai-writing-sounds-robotic).
+
+## Why these particular words
+
+It is worth knowing why this vocabulary clusters the way it does, because the reasons predict which words will join the list next.
+
+**Frequency wins.** A model picks likely words. Across a huge corpus, "utilize" is a common formal alternative to "use," "landscape" a common metaphor for a domain, "robust" a common adjective for strength. None is remarkable individually; each is the safe pick at that position, and safe picks accumulate.
+
+**Preference tuning rewards caution.** Human raters penalise confident wrongness more than vagueness, so hedged phrasing gets systematically reinforced. "Can potentially help" is trained behaviour, not an accident.
+
+**Register bleed from training data.** Corporate and academic prose is heavily represented, and it is where "leverage," "synergy," "framework," and "a testament to" live. Models produce that register because they read a great deal of it.
+
+**"Delve" is a genuine anomaly.** Its frequency in model output far exceeds its frequency in ordinary English, and the leading explanation involves the preference-rating stage — raters whose regional English favours more formal diction shaping which drafts scored well. Whatever the cause, it makes a useful marker precisely because so few people say it naturally.
+
+The predictive value: any formal, slightly elevated synonym for a common word is a candidate. When "delve" becomes too well known and gets tuned out, something adjacent will take its place. The category is stable even as the membership rotates.
+
+## Words this list gets wrong
+
+Two failure modes worth guarding against, because word-list advice causes real damage when applied mechanically.
+
+**These are not banned words.** Every one has legitimate uses. "Robust" is precise in statistics. "Framework" is the correct word for a framework. "Furthermore" is fine when a genuine additive relationship needs marking. A list like this identifies *candidates for scrutiny*, not prohibitions — and writing that visibly avoids ordinary vocabulary reads as strained in its own way.
+
+**Density is the signal, not presence.** One "landscape" in an article means nothing. Six of these in a 300-word section, alongside uniform sentence rhythm, is the actual pattern. A human vocabulary varies more than a model's, so clustering is what distinguishes them.
+
+The related mistake is assuming the reverse holds. Removing every word on this list does not make text human-written, and their absence proves nothing about authorship. Detectors do not check for them, and neither should readers drawing conclusions about someone's work — the reasoning is in [how AI content detectors actually work](/blog/how-ai-content-detectors-work).
+
+## The replacements
+
+A word list is only useful with something to put in the gap.
+
+| Instead of | Try |
+| --- | --- |
+| Utilize | Use |
+| Leverage (verb) | Use, or name the action |
+| Delve into | Look at, dig into, examine |
+| Landscape / realm / space | The actual field: "the B2B software market" |
+| Robust | The specific property: fast, well-tested, hard to break |
+| Facilitate | Help, let, make possible |
+| A testament to | Say what it demonstrates and how |
+| In today's fast-paced world | Delete |
+| It is important to note that | Delete |
+| Furthermore / Moreover | Delete, or "and," or start the sentence |
+| That being said | But, though, or delete |
+| In conclusion | Delete |
+| Can potentially help | Helps, or say under what conditions |
+| Significant / substantial | A number |
+| Seamless | What does not break, and how you know |
+
+Notice how many entries are just "delete." Filler openers and formal transitions usually need removing rather than replacing, and the sentence is better for it — which is also why substituting synonyms does so little. Swapping "moreover" for "additionally" leaves the structural problem exactly where it was.
+
+## A five-minute pass
+
+1. **Search for the four highest-signal words:** "leverage," "landscape," "robust," "delve." More than one or two across a full article warrants a second look.
+2. **Search for "it is important to note" and "in today's."** These are almost always deletable in full.
+3. **Search for "significant," "substantial," and "very."** Each one either gets a number or gets cut.
+4. **Read the first two words of every sentence in one section.** Repeated formal transitions surface immediately.
+5. **Read the whole thing aloud.** Stock phrases are more obvious spoken than scanned.
+
+Steps 1 through 3 take about three minutes with Ctrl+F and catch most of what this list covers.
+
+Our [Text Humanizer](/humanize-text) handles this vocabulary layer automatically while preserving meaning, which is faster if you edit AI-assisted drafts regularly. What it will not do is step 3's real work — supplying the actual number in place of "significant" — because that requires knowing the number. For the structural problems underneath the word choice, which matter more, see [12 sentence patterns that make prose sound machine-made](/blog/sentence-patterns-that-sound-machine-made).

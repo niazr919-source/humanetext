@@ -1,0 +1,91 @@
+---
+title: "Why AI Detectors Fail Non-Native English Speakers"
+description: "Detectors measure vocabulary predictability, and non-native writing is predictable for reasons that have nothing to do with AI. Here is the mechanism, the evidence, and what to do about it."
+date: "2026-08-14"
+category: "detection"
+keywords: "ai detector bias non native speakers, esl ai detection false positive, turnitin bias international students, gptzero non native english"
+---
+
+There is a specific unfairness built into how AI content detectors work, and it falls almost entirely on people writing in a second language.
+
+It is not a bug in one product. It follows directly from what these tools measure, which means it shows up across every detector built on the same principle. If you are an international student, an ESL writer, or anyone who learned English through formal instruction rather than immersion, this is worth understanding — both because it explains a frustrating experience and because the mechanism is the basis of a good defence.
+
+## What detectors actually measure
+
+An AI detector does not look for fingerprints left by a model. There aren't any. What it does is estimate how *predictable* your text is.
+
+The core metric is **perplexity**. A language model reads your sentence one word at a time and, at each position, asks how surprised it is by the word that actually appears. "The cat sat on the ___" — a model expects "mat" or "floor," and is unsurprised. "The cat sat on the *manifesto*" is surprising. Low average surprise across a document means low perplexity, and low perplexity is read as machine-written, because language models generate by repeatedly choosing high-probability words.
+
+The secondary metric is **burstiness** — how much sentence length and complexity vary. Human writing tends to lurch: a long winding sentence, then a short one. Generated text is more even.
+
+Neither metric knows anything about how text was produced. They are proxies. And the proxy breaks in a very particular way.
+
+## Why second-language writing scores as machine-written
+
+Here is the crux: writing in a second language systematically produces exactly the statistical profile detectors treat as evidence of AI.
+
+**A smaller active vocabulary means more common words.** A native speaker choosing between "worsen," "exacerbate," "compound," and "aggravate" might pick the less obvious one for rhythm or nuance. A second-language writer reaches for the word they are confident is correct. That word is usually the most frequent one — which is also the word the language model predicts. Every such choice lowers perplexity.
+
+This is the cruel part: careful, correct word choice registers as suspicious. Uncertainty about vocabulary produces safe vocabulary, and safe vocabulary is predictable vocabulary.
+
+**Formal instruction teaches the model's own patterns.** English taught as a foreign language is taught through structures: topic sentence, supporting evidence, transition, conclusion. Learners are drilled on connective phrases — "furthermore," "in addition," "on the other hand," "in conclusion." Those phrases are formulaic by design; that is why they are teachable.
+
+Large language models were trained on enormous quantities of exactly this register — textbooks, formal essays, instructional prose. So a learner who followed their training faithfully writes something statistically close to what the model produces, for the straightforward reason that both learned from the same kind of source.
+
+**Consistency is taught as a virtue.** Language instruction rewards even, uniform sentence construction, because uniformity is easier to assess and easier to get right. That directly suppresses burstiness. A writer who has been trained to produce clean parallel sentences of similar length is producing low-variance text, which is the second signal detectors weight.
+
+**Idiom is what raises perplexity, and idiom is the last thing acquired.** The features that make native writing statistically surprising — unexpected metaphor, register-mixing, dropped articles for effect, sentence fragments, regional idiom — are precisely what second-language writers avoid, because getting them slightly wrong sounds worse than not attempting them.
+
+**Grammar and translation tools flatten it further.** Many non-native writers run drafts through Grammarly, a spellchecker, or a translation pass. Every one of these nudges text toward the statistical centre — that is their whole function. The writer is being careful. The detector reads carefulness as automation.
+
+So the profile of a conscientious ESL essay is: common vocabulary, formulaic transitions, even sentence length, no idiom, grammar-tool-smoothed. That is a near-perfect description of what detectors are trained to flag.
+
+## The evidence
+
+This is not a theoretical concern. Research published in *Patterns* in 2023 by a Stanford group tested several widely used GPT detectors against essays by native and non-native English writers. Essays by native speakers were classified accurately. Essays written by non-native speakers were misclassified as AI-generated at a strikingly high rate — the majority of the sample was flagged by at least one detector, and a substantial proportion was flagged by all of them.
+
+The same study demonstrated the mechanism directly. When the researchers took the non-native essays and prompted a language model to rewrite them with richer, more varied vocabulary, the false-positive rate collapsed. Making the writing *less* like typical second-language writing made detectors stop flagging it — which tells you the detectors were responding to the linguistic profile of second-language writing, not to any trace of machine generation.
+
+Some institutions have responded. Several universities have disabled AI detection features in their assessment platforms, citing reliability and equity concerns, and Turnitin's own documentation advises that its AI indicator should not be used as the sole basis for an academic misconduct finding.
+
+Others have not, and international students continue to be flagged at higher rates than domestic ones.
+
+## Why this matters more than a bad score
+
+The people this hits hardest are the ones least equipped to fight it.
+
+An international student may be on a visa contingent on academic standing. They may be navigating an appeals process in their second language, against an institution whose norms they are still learning, without the cultural fluency to know that pushing back is permitted. The cost of a false accusation is higher, and the capacity to contest it is lower.
+
+There is also a quieter cost. Writers who learn they are being flagged start writing defensively — deliberately adding errors, avoiding tools that would help them, roughening prose they worked hard to make clean. That is a bad outcome for everyone. It degrades the writing, wastes the writer's effort, and teaches exactly the wrong lesson about what good prose is.
+
+## What to do if you are flagged
+
+The general playbook is in our guide to [defending your work against an AI accusation](/blog/falsely-accused-of-using-ai). Everything there applies. These are the additions specific to this situation.
+
+**Name the mechanism explicitly.** Do not just assert that detectors are unreliable. Explain *why your writing in particular* produces this result: that detectors score vocabulary predictability, that second-language writing uses higher-frequency vocabulary by necessity, and that this produces low perplexity independent of how the text was made. An assessor who understands the mechanism usually stops treating the score as evidence.
+
+**Cite the research.** The Stanford *Patterns* study is the one to point at. It is peer-reviewed, widely reported, and directly on point. You do not need to over-explain it — "published research found GPT detectors misclassify non-native English writing at substantially higher rates than native writing" is enough to shift the conversation.
+
+**Ask about the institution's policy on detector reliability.** Many institutions have quietly adopted guidance limiting detector use precisely because of this issue. Asking whether such guidance exists is a reasonable question and frequently produces a helpful answer.
+
+**Show your first-language traces.** If you outline in your first language, or keep notes in it, or have search history in it, that is strong evidence of authentic composition. Generated English text does not come with a Korean or Portuguese or Arabic outline behind it.
+
+**Ask for the comparison you would win.** Offer to write something comparable under supervision. If your supervised writing shows the same statistical profile as the flagged work, that is close to conclusive, and it is a request that is hard to refuse.
+
+## Should you deliberately write worse?
+
+No, and the reasoning is worth spelling out.
+
+The temptation is real: add some errors, vary the sentence lengths artificially, throw in unusual words, and the score drops. It works. It also means accepting that a broken measurement should dictate how you write, which is a bad trade in every direction — your writing gets worse, the skill you are trying to build gets distorted, and if anyone ever examines the pattern it looks like evasion.
+
+There is a legitimate version of this, and it is different in kind. Genuinely improving variety in your writing — building vocabulary range, learning to mix sentence lengths deliberately, developing an ear for rhythm — makes your writing better *and* raises perplexity as a side effect. That is not gaming a metric. That is the thing the metric was a bad proxy for in the first place. Our guides to [sentence rhythm](/blog/sentence-rhythm-writing-tips) and [making writing sound human](/blog/how-to-make-ai-writing-sound-more-human) cover the mechanics.
+
+And to be clear about our own tool: the [Text Humanizer](/humanize-text) rewrites for rhythm and phrasing, and it will change how a passage scores, because it changes the writing. It is not a detector-evasion service, and using it to disguise work you did not do is against our [terms](/terms). Using it to make a draft you wrote read more naturally is the intended case.
+
+## The structural problem
+
+Detectors were adopted quickly because institutions needed an answer to a genuine problem, and a percentage score feels like an answer. But a tool that cannot distinguish "written by a machine" from "written by a careful person with a smaller English vocabulary" is not measuring what its users think it measures.
+
+The disparate impact is not incidental to how these tools work. It is a direct consequence of it. Any detector built on perplexity will penalise predictable writing, and second-language writing is predictable for entirely innocent reasons.
+
+Until assessment practice catches up, the burden falls on individuals to understand the mechanism well enough to explain it. That is unfair. It is also, right now, the most effective thing you can do — an assessor who understands *why* the number is high usually stops treating it as a number that means anything.

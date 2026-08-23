@@ -2,6 +2,8 @@
 title: "A Beginner's Guide to Content Authenticity in the AI Era"
 description: "What 'content authenticity' actually means now that AI tools are part of most people's writing and photography workflows, and how to think about it practically."
 date: "2026-07-21"
+updated: "2026-08-23"
+category: "guides"
 keywords: "content authenticity, ai content authenticity, authentic content ai era"
 ---
 
@@ -40,3 +42,49 @@ When you're not sure whether something crosses a line, three questions tend to c
 ## The practical takeaway
 
 Content authenticity in 2026 isn't about avoiding AI tools entirely — that ship has largely sailed for most professional writing and design work. It's about using those tools to produce something you'd stand behind, verified and specific, rather than using them to generate volume you haven't actually checked. That distinction, not the presence or absence of AI, is what "authentic" actually means now.
+
+## Authenticity is about provenance, not process
+
+The framework above works because it separates two things that get conflated: how something was *made*, and what it *claims about itself*.
+
+A photograph edited heavily for contrast and colour is still a photograph, because it still asserts that a camera recorded that scene. A generated image with no editing at all is not, however photographic it looks, because nothing was recorded. The processing is not what matters. The claim is.
+
+This reframing resolves most of the hard cases. A ghostwritten memoir is authentic in the sense that matters — the subject's life, their account, their approval — even though they did not type it, because nobody understood the byline to mean otherwise. A student essay is different, because the byline there specifically asserts that this person did this thinking. Same delegation, different claim, different answer.
+
+Where it gets genuinely difficult is where the claim is ambiguous. A company blog post has no strong implicit claim about who typed it. A personal essay does. Most disputes about AI and authenticity are really disputes about what a given format implicitly promises, and those norms are still being settled.
+
+## The categories that have hard lines
+
+Some contexts have settled answers already, and they are worth knowing because the cost of getting them wrong is high.
+
+**Documentary photography and photojournalism.** Manipulation that changes what an image asserts about reality is prohibited by every major news organisation's standards. This covers adding or removing elements, compositing, and generated imagery presented as capture. Adjusting exposure and contrast is permitted. The line is whether the image still testifies to what was in front of the lens.
+
+**Evidence.** Insurance claims, legal proceedings, and scientific publication all treat image manipulation as a serious matter, sometimes a criminal one. There is no stylistic argument available here.
+
+**Academic assessment.** The claim is specifically that you did this thinking, so substitution defeats the purpose regardless of quality. Covered fully in [AI writing tools and academic integrity](/blog/ai-writing-tools-academic-integrity).
+
+**Regulated professional advice.** Legal filings, medical documentation, and financial advice carry professional accountability. Several courts now require disclosure of AI use in filings, following cases involving fabricated citations.
+
+**Reviews and testimonials.** These claim first-hand experience. Generating them is fabrication, and in many jurisdictions it is also illegal.
+
+Outside these, most content — marketing copy, documentation, blog posts, design assets — carries no strong provenance claim, and the process genuinely does not matter to anyone.
+
+## The thing that actually erodes trust
+
+In practice, the authenticity failures that damage people are rarely about disclosure. They are about **volume without verification**.
+
+The characteristic modern failure is not "this was written by a model." It is a confidently stated statistic that came from nowhere, a cited study that does not exist, a quote attributed to someone who never said it, a product review of something nobody used. These are old problems — fabrication predates the technology by centuries — but generation makes them cheap and fluent, and fluency is what gets them past editors.
+
+This is why we think verification is the more useful standard than disclosure. A disclosed AI-assisted article full of invented figures is worse than an undisclosed one where every number was checked. Readers are harmed by the false claim, not by the drafting method.
+
+The practical version: before publishing anything AI-assisted, confirm that every number traces to a source you looked at, every named study exists, every quote is real and correctly attributed, and every technical claim is something you could defend if challenged. That pass is where authenticity actually lives.
+
+## Provenance standards are coming
+
+The longer-term answer is probably not detection, which has structural problems we cover in [how AI content detectors actually work](/blog/how-ai-content-detectors-work). It is provenance metadata — cryptographically signed records of how a piece of content was created and modified, travelling with the file.
+
+The C2PA standard does this for images, with support from camera manufacturers, editing software, and some generation tools. The model inverts the current one: instead of trying to detect what was synthesised, content carries a verifiable account of its own history, and content without that history is treated as unverified rather than assumed genuine.
+
+It is a better fit for the problem, because it is a claim made by a party who can be held to it rather than a guess made by a classifier. The obstacles are adoption and the fact that metadata is trivially stripped — a screenshot destroys it. But for the contexts with hard lines above, it is the direction things are moving, and anyone working in those fields should expect provenance requirements before they expect reliable detection.
+
+For the practical question of when to disclose, see [when and how to disclose that you used AI](/blog/when-and-how-to-disclose-ai-use).

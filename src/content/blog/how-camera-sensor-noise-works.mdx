@@ -1,0 +1,102 @@
+---
+title: "How Camera Sensor Noise Actually Works (And Why Fake Grain Looks Wrong)"
+description: "Photon shot noise, read noise, and pattern noise explained without the physics degree — plus the specific reasons synthetic grain overlays fail to fool the eye."
+date: "2026-08-06"
+category: "photography"
+keywords: "camera sensor noise explained, photon shot noise, film grain vs digital noise, why fake grain looks bad, add realistic grain to ai image"
+---
+
+Add a grain overlay to a clean image and something usually goes wrong. The picture looks like a clean picture with grain on top of it, not like a photograph. Most people can see this instantly and very few can say why.
+
+The reason is that real image noise is not a layer. It is a byproduct of how light gets counted, which means its strength depends on how much light there was — and that dependence is the thing overlays get wrong.
+
+This article covers what actually produces noise in a digital photograph, how it differs from film grain, and what has to be true of synthetic grain for it to read as real. If you want the visual-tells version rather than the mechanism, [why AI-generated images look fake](/blog/why-ai-generated-images-look-fake) is the companion piece.
+
+## Light arrives in lumps
+
+The foundational fact is that light is quantised. A camera sensor is a grid of wells that count photons, and photons arrive at random intervals rather than in a steady stream.
+
+If a patch of your scene is bright enough that a given photosite collects an average of 10,000 photons during the exposure, it will not collect exactly 10,000. It will collect something near it, and the spread follows a Poisson distribution. The useful property of a Poisson distribution is that its standard deviation is the square root of its mean.
+
+That single fact drives everything:
+
+- 10,000 photons → noise of about 100 → **1% relative noise**
+- 100 photons → noise of about 10 → **10% relative noise**
+- 16 photons → noise of about 4 → **25% relative noise**
+
+This is **photon shot noise**, and it is not a defect. It is a property of light. A perfect sensor with perfect electronics, cooled to absolute zero, would still produce it.
+
+The consequence for how photographs look is the important part: **noise is relatively stronger in the shadows and relatively weaker in the highlights.** Bright areas collect many photons and average out; dark areas collect few and stay statistically ragged. This is why underexposed images look noisy and why "expose to the right" is standard advice.
+
+Uniform grain applied evenly across an image violates this immediately. The highlights get noise they should not have, and the shadows get noise that does not rise the way it should. The eye may not know the physics, but it has seen a very large number of photographs and it knows the pattern.
+
+## The other noise sources
+
+Shot noise dominates, but a few others shape the character of the result.
+
+**Read noise** comes from the electronics that convert accumulated charge into a number — amplifier noise, quantisation error in the analogue-to-digital converter. Unlike shot noise, it is roughly constant regardless of signal, which makes it dominant in the deepest shadows where there is almost no signal to compare it against. Read noise is what you are fighting when you lift shadows in a raw file and get mush.
+
+**Dark current** is thermal: electrons liberated by heat rather than light, accumulating over time. It matters in long exposures and warm conditions, and it is why astrophotographers cool their sensors and why a thirty-second exposure looks worse than a thirtieth of a second at the same ISO.
+
+**Pattern noise** is fixed and structural — small manufacturing variations between photosites, amplifier glow at a sensor edge, banding from readout circuitry. This is the noise that does *not* look random, and it is a large part of why real high-ISO images have a specific texture rather than a generic one.
+
+**Colour noise versus luminance noise** is the distinction that matters most visually. A colour sensor filters each photosite for red, green, or blue, then reconstructs full colour by interpolating from neighbours — demosaicing. Because each channel is counted independently and then interpolated, noise in the colour channels ends up correlated across neighbouring pixels in a way that luminance noise is not. The result is chroma noise: coloured blotches, larger than single pixels, most visible in dark flat areas. Luminance noise is finer and reads as texture; chroma noise reads as damage, which is why every denoiser removes it aggressively while leaving some luminance noise intact.
+
+## ISO does not add noise
+
+A persistent misconception worth clearing up: raising ISO does not create noise. It amplifies a signal that already has noise in it.
+
+The noise appears because you raised ISO in response to *less light*, and less light means fewer photons, which means worse shot noise. ISO 6400 images are noisy because they were shot in the dark, not because the number was high. On many modern sensors, a correctly exposed ISO 6400 frame is cleaner than an ISO 800 frame underexposed by three stops and lifted — same amount of light, but the higher ISO applied amplification before the read noise was introduced.
+
+This matters for synthetic grain because it means grain strength should track *scene illumination*, not some abstract "film speed" setting.
+
+## Film grain is a different thing entirely
+
+The two get conflated constantly, and they are physically unrelated.
+
+Film grain is not noise. It is structure. Photographic film is an emulsion holding silver halide crystals of varying sizes and irregular shapes, distributed randomly through the layer's thickness. A crystal either gets developed or it does not — the response is binary at the individual grain level, and the continuous tone you perceive comes from the density of developed grains per unit area.
+
+Several consequences follow:
+
+- **Grain has physical shape and size.** It is not per-pixel. Enlarge a negative and the grain enlarges with it, which is why 35mm grain is coarse and medium format grain is fine at the same print size.
+- **Grain clumps.** Crystals sit at different depths and cluster; developed grains overlap. The result has visible structure at a scale larger than any single crystal.
+- **Grain is strongest in the midtones.** In highlights nearly every crystal is developed, so the field is uniformly dense and grain is suppressed. In deep shadows almost none are developed, so it is uniformly sparse. Grain visibility peaks where roughly half the crystals developed — the midtones.
+
+That last point is the exact opposite of digital shot noise, which peaks in the shadows. It is the single most useful distinction in the whole subject: **film grain peaks in the midtones, sensor noise peaks in the shadows.**
+
+Colour negative film adds another layer, since it has three emulsion layers of different sensitivity, meaning grain differs by channel and is typically coarsest in blue.
+
+## Why grain overlays fail
+
+With the mechanism in hand, the failure modes of a naive grain overlay are easy to name.
+
+**It ignores luminance.** Uniform noise everywhere is the biggest single tell, because neither real mechanism behaves that way. Grain in a blown highlight is a physical impossibility, and the eye registers it as wrongness even without diagnosis.
+
+**It is monochromatic when it should not be, or coloured when it should not be.** Digital sensor noise has a chroma component with a distinctive blotchy scale. Film grain differs by emulsion layer. Pure grey noise on all three channels equally is neither.
+
+**It has no spatial structure.** Per-pixel random noise has a flat frequency spectrum — white noise. Both film grain and real demosaiced sensor noise have energy concentrated at slightly lower frequencies, because grains clump and demosaicing correlates neighbours. Pure per-pixel noise looks like television static; real texture is a little softer and a little clumpier.
+
+**It doesn't survive the workflow.** Real noise gets introduced before demosaicing, sharpening, and JPEG compression, so it interacts with all of them — sharpening amplifies it, compression clusters it into blocks. Noise pasted on at the end has been through none of that, and the mismatch is detectable.
+
+**It sits on top of an image that is too clean underneath.** A generated image typically has no lens softness falloff toward the corners, no chromatic aberration, no vignetting, no depth-of-field gradient. Grain over an implausibly perfect image just produces a grainy implausibly perfect image.
+
+## What our tool does, and what it does not
+
+Since we run a [Photo Humanizer](/humanize-photo), our [editorial standards](/about/editorial) require being straight about its limits.
+
+It generates a monochromatic noise field, applies a slight blur to give it spatial structure rather than leaving it as flat white noise, and composites it using an **overlay** blend. Overlay is the important choice: it scales its effect by the underlying pixel value, so the noise lands hardest in the midtones and is compressed in both the deep shadows and the bright highlights. That approximates the film-grain distribution described above, which is why the output reads as photographic rather than as static. It then applies mild sharpening, a small saturation lift, and encodes as JPEG with chroma subsampling — steps that put the grain through something resembling a real capture pipeline rather than leaving it pristine.
+
+What it does not do: it does not model chroma noise separately, it does not vary grain size with output resolution the way real enlargement does, and it does not reproduce the shadow-weighted profile of digital sensor noise, because it is modelling film grain rather than sensor output. If you need physically accurate sensor noise for a specific camera, a dedicated raw processor with a camera-matched noise profile will do a better job. If you want an image to stop looking synthetically clean, midtone-weighted grain is the effective ninety percent.
+
+## Doing it by hand
+
+For those working in a full editor, the recipe follows directly from the mechanism:
+
+1. **Work at final output size.** Grain is a property of the print, not of the file. Adding grain before a large resize scales it into something wrong.
+2. **Generate monochromatic noise**, then blur it very slightly — a fraction of a pixel — to move energy out of the highest frequencies.
+3. **Blend with overlay or soft light**, never normal. This is what produces luminance dependence.
+4. **Mask by luminance** if your tool allows it. For a film look, mask to the midtones. For a digital high-ISO look, weight it toward the shadows and add a separate, coarser, lower-opacity coloured layer for chroma noise.
+5. **Keep it subtle.** Grain you consciously notice is almost always too strong. The target is texture you would miss if it were removed.
+6. **Add it before final sharpening and compression**, so it goes through the same processing the rest of the image does.
+
+The underlying principle is worth more than the recipe: noise in a photograph is evidence of how the light was counted. Get the relationship between brightness and noise right and the texture reads as real. Get it wrong and no amount of tuning the opacity slider will save it.

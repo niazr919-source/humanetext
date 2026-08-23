@@ -1,0 +1,126 @@
+---
+title: "How to Brief an AI So the First Draft Is Worth Editing"
+description: "Most AI drafts read badly because the brief was thin. A working method for supplying the constraints, evidence, and voice samples that produce a draft you can actually edit."
+date: "2026-08-02"
+category: "guides"
+keywords: "how to prompt ai for writing, ai writing brief, better chatgpt writing prompts, get better ai drafts, ai content brief template"
+---
+
+There is a lot of advice about fixing AI writing after the fact. Much less about the reason it needs so much fixing.
+
+A model given a thin instruction has to invent everything the instruction left out — the angle, the audience, the evidence, the level of confidence, the shape. It fills those gaps with the statistical average of everything it has read, which is precisely the bland, hedged, tricolon-heavy prose everyone complains about. The generic output is not a flaw in the model. It is an accurate response to a generic request.
+
+Improve the brief and the amount of repair work drops sharply. Here is what actually moves the needle, roughly in order of impact.
+
+## Give it something it does not know
+
+The single largest quality jump comes from supplying material the model could not have generated on its own.
+
+A request like "write an article about remote team productivity" can only be answered from the aggregate of everything written about remote team productivity. The result will be true, unobjectionable, and worth nothing, because it contains no information that was not already everywhere.
+
+Now supply substance:
+
+> We moved 40 people to async-first in March. Standups gone, replaced by written updates in a shared doc by 10am local. Three months in: engineering shipped about the same, but the design team hated it — they said they lost the "thinking out loud" part. We've since brought back one weekly synchronous session for design only. Write this up as an honest account for a company blog, including what didn't work.
+
+Now the model has facts, a timeline, a complication, and a resolution. It cannot produce generic copy from that, because the specifics constrain every paragraph. What it produces will still need editing, but it will be editing rather than rewriting.
+
+The rule: **anything only you know is the highest-value thing you can put in the brief.** Numbers, dates, what went wrong, the objection someone raised, the thing you changed your mind about.
+
+## Specify the reader, not the topic
+
+"Write about database indexing" leaves the model to guess who is reading. It will hedge by aiming at everyone, which means a paragraph explaining what a database is followed by a paragraph on covering indexes.
+
+Name the reader precisely, including what they already know and what they are trying to decide:
+
+> Reader: a backend developer with three years' experience who has used indexes but has never thought about their cost. They are trying to work out why their write throughput dropped after a recent change. Assume they know SQL, do not explain what an index is, do explain write amplification.
+
+Notice that the useful part is the *negative* constraint. Telling the model what to skip prevents the throat-clearing preamble that generated articles almost always open with.
+
+## Give it a voice sample
+
+Descriptions of voice do not work well. "Write in a conversational, engaging tone" is instruction the model has seen attached to a million different actual styles, so it reverts to the average of them — which is that slightly over-familiar blog voice everyone recognises.
+
+Demonstration works far better. Paste 300–500 words you have written, and say: match this. The model is genuinely good at picking up sentence length distribution, punctuation habits, and register from an example, and much worse at inferring them from an adjective.
+
+If you have no sample, paste writing you admire and be explicit that it is a target rather than your existing style. Two or three samples from the same author are better than one.
+
+## Constrain the structure
+
+Left alone, a model produces the shape it saw most in training: introduction, three or four evenly weighted sections with parallel headings, conclusion that restates the introduction. That shape is why so much AI writing reads identically even on unrelated subjects.
+
+Impose your own:
+
+> Structure: open with the incident, not with context. Then two paragraphs on why it took so long to notice. Then the fix, in detail — this should be the longest section by some margin. No summary at the end; finish on what we're still unsure about.
+
+Uneven section weights, in particular, are worth specifying. Real writing gives disproportionate space to the interesting part. Generated writing distributes attention evenly because nothing tells it not to.
+
+## Set the confidence level
+
+Models default to a register of calm authority regardless of how well-established the underlying claim is. This is where fabricated statistics and confidently-wrong assertions come from, and it is the hardest thing to catch in editing because everything sounds equally certain.
+
+Head it off:
+
+> Where you are confident, state it plainly. Where the evidence is mixed, say so and say why. Do not invent statistics, studies, or quotes — if a number would help, write "[NUMBER NEEDED]" and I will fill it in. Do not name sources unless I gave them to you.
+
+The bracketed-placeholder instruction is particularly effective. It converts the model's instinct to fabricate into a visible to-do list, and it makes the fact-checking pass enormously faster because the gaps are marked rather than hidden.
+
+## Ban the patterns explicitly
+
+Generic instructions to "avoid AI-sounding language" do very little. Specific structural prohibitions do a lot:
+
+> - No sentence may begin with "It is important to note," "In today's," "Moreover," or "Furthermore."
+> - No three-item parallel lists unless the subject genuinely has three parts.
+> - No concluding paragraph that summarises what was already said.
+> - No rhetorical questions as section openers.
+> - Vary paragraph length deliberately: include at least two single-sentence paragraphs.
+> - Replace every intensifier with a concrete number or cut it.
+
+These map onto the recurring shapes covered in [12 sentence patterns that make prose sound machine-made](/blog/sentence-patterns-that-sound-machine-made). Prohibiting the shape works better than prohibiting the vocabulary, because vocabulary bans just produce synonyms in the same construction.
+
+## Ask for the outline first
+
+For anything substantial, split the job. Ask for a structural outline — sections, the argument each makes, roughly how long each should be — and correct it before any prose exists.
+
+Fixing an argument is cheap in outline form and expensive in finished paragraphs, because well-written prose creates a reluctance to cut. It also surfaces the thing that makes most drafts unsalvageable: discovering, three pages in, that the piece does not actually have a point.
+
+When you get the outline, interrogate it. Which section is doing the real work? Is anything there purely to fill out a pattern? What is missing that only you would know to add?
+
+## Iterate on specifics, not vibes
+
+"Make it better" and "make it more engaging" produce lateral movement — different text, same quality. Diagnose instead:
+
+> Section 3 is the weakest. It asserts that async communication improves focus but gives no example. Replace the second paragraph with a concrete scenario from the details I gave you. Also, five consecutive sentences in section 2 start with "The" — fix that. And cut the last paragraph entirely; the piece should end on the design team problem.
+
+Three concrete instructions beat one vague one every time. If you cannot name what is wrong, that is worth noticing — it usually means the problem is structural and you need to go back to the outline.
+
+## A brief template
+
+Pulling it together. Not everything is needed every time, but the more of it you supply the less repair work follows.
+
+> **Task:** [what to write, in one line]
+>
+> **Reader:** [who they are, what they already know, what they're deciding]
+>
+> **Do not explain:** [things to assume]
+>
+> **Source material:** [your facts, numbers, timeline, quotes — the more the better]
+>
+> **Angle:** [the specific claim this piece makes, in one sentence]
+>
+> **Structure:** [sections and relative weight, including what to open and close on]
+>
+> **Voice:** [pasted sample of 300+ words] — match the sentence rhythm and register of this.
+>
+> **Length:** [target, and where the weight should sit]
+>
+> **Constraints:** no invented facts or sources; mark gaps as [NEEDED]; no summary conclusion; no three-item lists unless real; vary paragraph length.
+>
+> **First deliverable:** an outline only. Do not write prose yet.
+
+## The part that does not change
+
+A good brief gets you a draft with real content in a sensible shape. It does not get you a finished piece, and there is no version of this that does.
+
+What remains is the work that requires being a person: checking every fact against a source, cutting the paragraph that is well-written but unnecessary, replacing the abstraction with the specific example you remember, and reading the whole thing aloud to hear where it drones. Our [editing checklist](/blog/editing-checklist-for-ai-generated-content) covers that pass in order, and the [Text Humanizer](/humanize-text) will handle the rhythm and phrasing layer mechanically if you would rather spend your attention on substance.
+
+The practical shift is where the effort sits. Most people spend ten minutes on a prompt and two hours repairing the output. Thirty minutes on the brief, and the repair is closer to forty — and the finished piece is better, because it was built from things only you knew rather than from the average of everything.

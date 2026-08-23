@@ -1,10 +1,17 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import { getAllPosts, getPostBySlug } from "@/lib/posts";
+import {
+  MIN_WORDS_FOR_ADS,
+  getAllPosts,
+  getPostBySlug,
+  getRelatedPosts,
+} from "@/lib/posts";
+import { AUTHOR, SITE_NAME, SITE_URL } from "@/lib/site";
 import AdSlot from "@/components/AdSlot";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://humanetext.com";
+import Byline from "@/components/Byline";
+import RelatedPosts from "@/components/RelatedPosts";
 
 export function generateStaticParams() {
   return getAllPosts().map((post) => ({ slug: post.slug }));
@@ -22,11 +29,14 @@ export async function generateMetadata({
     title: post.title,
     description: post.description,
     keywords: post.keywords.length ? post.keywords : undefined,
+    authors: [{ name: AUTHOR.name }],
     openGraph: {
       title: post.title,
       description: post.description,
       type: "article",
       publishedTime: post.date || undefined,
+      modifiedTime: post.updated || post.date || undefined,
+      authors: [AUTHOR.name],
     },
     alternates: { canonical: `/blog/${slug}` },
   };
@@ -41,16 +51,29 @@ export default async function BlogPostPage({
   const post = getPostBySlug(slug);
   if (!post) notFound();
 
+  const related = getRelatedPosts(slug);
+  const showAds = post.wordCount >= MIN_WORDS_FOR_ADS;
+
   const articleJsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: post.title,
     description: post.description,
     datePublished: post.date || undefined,
-    dateModified: post.date || undefined,
+    dateModified: post.updated || post.date || undefined,
     url: `${SITE_URL}/blog/${slug}`,
-    author: { "@type": "Organization", name: "Humanwords" },
-    publisher: { "@type": "Organization", name: "Humanwords" },
+    wordCount: post.wordCount,
+    author: {
+      "@type": "Person",
+      name: AUTHOR.name,
+      description: AUTHOR.role,
+      url: `${SITE_URL}/about/editorial`,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
     mainEntityOfPage: `${SITE_URL}/blog/${slug}`,
   };
 
@@ -60,14 +83,39 @@ export default async function BlogPostPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
-      <p className="text-xs font-medium uppercase tracking-wide text-ink-soft">{post.date}</p>
-      <h1 className="font-display mt-1 text-4xl font-semibold tracking-tight">{post.title}</h1>
+
+      <nav aria-label="Breadcrumb" className="text-sm text-ink-soft">
+        <Link href="/blog" className="hover:text-ink">
+          Blog
+        </Link>
+        <span aria-hidden="true"> / </span>
+        <span>{post.title}</span>
+      </nav>
+
+      <h1 className="font-display mt-3 text-4xl font-semibold tracking-tight">{post.title}</h1>
+      <p className="mt-4 text-lg text-ink-soft">{post.description}</p>
+
+      <div className="mt-6 border-y border-line py-4">
+        <Byline
+          category={post.category}
+          date={post.date}
+          updated={post.updated}
+          readingMinutes={post.readingMinutes}
+        />
+      </div>
+
       <div className="prose prose-neutral mt-8 max-w-none prose-headings:font-display prose-a:text-accent-dark">
         <MDXRemote source={post.content} />
       </div>
-      <div className="mt-10">
-        <AdSlot slot="1111111111" />
-      </div>
+
+      <RelatedPosts posts={related} />
+
+      {/* Ads only on substantial articles — see MIN_WORDS_FOR_ADS. */}
+      {showAds && (
+        <div className="mt-10">
+          <AdSlot slot="1111111111" />
+        </div>
+      )}
     </article>
   );
 }

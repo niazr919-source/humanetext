@@ -2,6 +2,8 @@
 title: "Why AI-Generated Images Still Look 'Off' (And How to Fix the Common Tells)"
 description: "The specific visual tells that make AI-generated images look synthetic — from unnatural smoothness to lighting inconsistencies — and practical fixes for each."
 date: "2026-08-02"
+updated: "2026-08-23"
+category: "photography"
 keywords: "ai images look fake why, ai generated image tells, why do ai images look off, ai image realism"
 ---
 
@@ -48,3 +50,39 @@ Real digital photos, especially ones that have been through a phone camera pipel
 None of these tells are individually damning — a single AI-generated image might get away with unnaturally smooth skin if the lighting and texture elsewhere are convincing. It's the combination, much like with AI-generated text, that gives the game away: multiple "too clean" signals stacking up in the same image.
 
 Our [Photo Humanizer](/humanize-photo) is built to address the two most fixable tells after generation — smoothness and missing sensor artifacts — by adding luminance-aware grain, a light sharpening pass for restored micro-detail, and realistic JPEG compression on export. It won't rebuild irregular textures or fix lighting from scratch, but for the most common and most noticeable tell — that telltale digital smoothness — it closes most of the gap between "obviously generated" and "looks like a real photo."
+
+## The order the eye checks things
+
+The tells above are not equally important, because people do not scan an image uniformly. Attention follows a rough hierarchy, and a failure high in the hierarchy makes everything below it irrelevant.
+
+**1. Geometry and physics.** Does the scene hold together? Shadows falling in inconsistent directions, reflections that do not match what is in front of the mirror, perspective lines that fail to converge, objects intersecting impossibly. These are caught almost instantly and cannot be fixed by post-processing.
+
+**2. Anatomy and faces.** Human perception is specialised for faces and hands. Asymmetric eyes, teeth of inconsistent size, an ear that does not match its partner, the well-known finger-count problems. Also caught fast.
+
+**3. Text and symbols.** Any writing in a generated image is a common failure — near-letterforms that resolve into nothing. Logos, signage, keyboards, book spines, clock faces.
+
+**4. Semantic coherence.** Objects that belong to different contexts, a period costume with a modern zip, plants that do not grow in that climate.
+
+**5. Texture and surface.** Skin too smooth, fabric without weave, materials with no wear.
+
+**6. Capture artefacts.** Missing grain, no chromatic aberration, no vignetting, no depth-of-field falloff.
+
+Only the last two are fixable after generation, which is the practical point of this hierarchy. Adding grain to an image with two left hands does nothing — you have made a textured impossible image. Work down the list: fix or regenerate for problems in the first four, and treat texture as the finishing pass it is.
+
+## Why the smoothness happens
+
+Worth understanding the cause, because it explains why the problem is systematic rather than incidental.
+
+Diffusion models generate by starting from noise and iteratively removing it. Denoising is literally the operation being performed, so the process is built to eliminate exactly the high-frequency randomness that real capture introduces. The result trends toward the smooth, idealised centre of everything the model has seen — a plausible average of a million skin textures rather than one person's actual skin.
+
+Training data compounds it. Images available at scale are disproportionately professional, retouched, and well-lit — stock photography, marketing imagery, edited portraits. Models learn that surfaces look retouched because in the training set they mostly did.
+
+And upscaling, applied to nearly every generated image, is another smoothing pass. It invents plausible detail rather than recovering real detail, which produces a particular kind of clean that has no analogue in optical capture.
+
+## What grain does and does not fix
+
+Our [Photo Humanizer](/humanize-photo) addresses tiers 5 and 6 — smoothness and missing capture artefacts — by compositing softened monochromatic noise with an overlay blend so it weights the midtones, then applying light sharpening and a JPEG encode with chroma subsampling. That puts the texture through something resembling a real pipeline rather than leaving it pasted on top. Why the blend mode matters is covered in [how camera sensor noise actually works](/blog/how-camera-sensor-noise-works).
+
+What it cannot do, stated plainly: it will not fix hands, correct impossible lighting, resolve garbled text, rebuild irregular surface structure, or add depth-of-field falloff that was never there. Texture is the last thing the eye checks, and a fix at that level only helps once the levels above it are already sound.
+
+The honest summary is that grain closes the gap between "obviously synthetic" and "reads as a photograph" for images that are already coherent — which is a real and useful improvement, and a much narrower claim than it is usually made to sound.

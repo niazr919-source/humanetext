@@ -2,6 +2,8 @@
 title: "What Is Film Grain and Why It Makes Photos Look More Real"
 description: "An explanation of film grain and digital sensor noise — where it comes from, why it reads as authentic, and how it's simulated in digital images today."
 date: "2026-07-28"
+updated: "2026-08-23"
+category: "photography"
 keywords: "what is film grain, film grain photography, sensor noise photography, grain effect photos"
 ---
 
@@ -41,4 +43,50 @@ Beyond nostalgia, grain serves a real functional purpose in design and photograp
 
 AI image generators, and heavily processed digital photos more broadly, often produce results that are unnaturally smooth — every surface rendered with even, artifact-free detail that no real camera sensor produces at typical settings. Adding realistic, luminance-aware grain back into these images is one of the most effective ways to make them read as authentic photography rather than a synthetic render.
 
-That's exactly the gap our [Photo Humanizer](/humanize-photo) is built to close: it analyzes the luminance of an uploaded image and adds grain that's proportionally stronger in shadows and midtones, plus a light sharpening pass to restore the kind of micro-detail a real lens produces, so the result reads as photographic rather than synthetic. For more on why AI images tend to need this kind of treatment in the first place, see [why AI-generated images still look "off"](/blog/why-ai-generated-images-look-fake).
+That's the gap our [Photo Humanizer](/humanize-photo) is built to close. To be precise about how: it builds a softened monochromatic noise field and composites it with an *overlay* blend, which scales the effect by the brightness of the pixel underneath — so the grain lands hardest in the midtones and is compressed in both deep shadows and bright highlights. That is the film-grain distribution rather than the sensor-noise one, which is a deliberate choice explained in the next section. A light sharpening pass and a JPEG encode follow, so the texture goes through something resembling a real capture pipeline instead of sitting on top untouched.
+
+For more on why AI images tend to need this treatment, see [why AI-generated images still look "off"](/blog/why-ai-generated-images-look-fake).
+
+## Midtones or shadows? The distinction that matters
+
+The section above says grain should be strongest in the midtones, and you will also see the advice that noise is strongest in the shadows. Both are correct, because they describe two different physical mechanisms that get lumped together under one word.
+
+**Film grain peaks in the midtones.** Film is an emulsion of silver halide crystals, and each one either develops or it does not. In a blown highlight nearly every crystal develops, so the field is uniformly dense and grain is suppressed. In deep shadow almost none develop, so it is uniformly sparse. Visible texture peaks where roughly half developed — the midtones.
+
+**Digital sensor noise peaks in the shadows.** A sensor counts photons, and photon arrival is random. The statistical spread scales with the square root of the count, so a bright area collecting 10,000 photons has about 1% relative noise while a dark area collecting 100 has about 10%. Less light, proportionally more noise.
+
+They are opposites, and choosing between them is really choosing which look you are after. A film emulation should weight the midtones. A high-ISO digital emulation should weight the shadows and add a separate, coarser, coloured layer for chroma noise. Applying one recipe while describing the other is how grain ends up looking approximately right and specifically wrong.
+
+Our tool models the film case. If you need physically accurate sensor noise for a particular camera, a raw processor with a camera-matched noise profile will do better. The full mechanism is in [how camera sensor noise actually works](/blog/how-camera-sensor-noise-works).
+
+## Grain by format and stock
+
+Grain is not one texture. It varies with film size, speed, and chemistry, which is why "add film grain" is an underspecified instruction.
+
+**Format sets the scale.** Grain size is fixed by the emulsion, so what changes with format is how much you enlarge it. A 35mm negative blown up to A3 shows coarse grain; a medium format negative at the same print size shows much finer grain from the same stock, because it was enlarged less. Large format sheet film can look nearly grainless. If you are emulating a look, the format matters more than the stock.
+
+**Speed sets the coarseness.** Faster films use larger crystals to catch more light, so ISO 3200 stock is dramatically grainier than ISO 100. This is the film analogue of the digital ISO relationship, though the cause is different — bigger crystals rather than amplified noise.
+
+**Colour behaves differently from black and white.** Colour negative film has three emulsion layers of differing sensitivity, so grain differs by channel and is usually coarsest in blue. Black and white film has one layer, giving the cleaner monochromatic texture most people picture when they think of film grain.
+
+**Process affects it.** Push-processing — underexposing and compensating in development — increases grain noticeably, which is why pushed low-light film has its particular gritty character.
+
+## How much is too much
+
+The most common mistake is overdoing it, and there is a simple test: **if you notice the grain, it is too strong.** The target is texture you would only miss if it were removed.
+
+A few practical constraints:
+
+**Match the scale to the output size.** Grain is a property of the final image, not the file. Add it at output resolution — grain applied before a large downscale disappears, and grain applied before an upscale turns into blobs.
+
+**Match it to the subject.** Grain reads as authentic on reportage, portraits, and low-light scenes because those were historically shot on grainy stock. On a bright, clean product shot it reads as an effect, because no photographer would have chosen fast film for that.
+
+**Keep it consistent within a set.** Varying grain across images in one series breaks the illusion faster than getting the amount slightly wrong, because it signals post-processing rather than capture.
+
+**Do not stack it on an already-noisy image.** Adding grain to a high-ISO photo that already has sensor noise produces a muddy double texture. Denoise first, or leave it alone.
+
+## When not to add grain
+
+Grain is a texture choice, not a repair. It will not rescue a poorly composed image, and it will not make an implausible one plausible — grain over an image with impossible lighting or six-fingered hands is a grainy impossible image. Texture is the last thing the eye checks, after geometry, lighting, and anatomy.
+
+There are also contexts where adding it is not a stylistic question at all. Documentary photography, photojournalism, evidence, insurance claims, and scientific imaging all have norms about what post-processing is permissible, and texture that implies a capture condition that did not occur can cross that line. Our [terms](/terms) rule out that use, and the reasoning is in [content authenticity in the AI era](/blog/content-authenticity-in-the-ai-era).
