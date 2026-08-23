@@ -1,0 +1,112 @@
+---
+title: "How to Add Realistic Film Grain in Lightroom, Photoshop, and Free Tools"
+description: "Step-by-step settings for convincing grain in five tools, why the blend mode matters more than the amount, and the three mistakes that make grain look pasted on."
+date: "2026-08-20"
+category: "photography"
+keywords: "how to add film grain lightroom, photoshop grain tutorial, realistic grain settings, add grain gimp affinity, film grain blend mode"
+---
+
+Most grain tutorials give you slider numbers. The numbers are the least transferable part — they depend on your image, your output size, and the look you are after, and a setting that works on a portrait ruins a landscape.
+
+What transfers is the reasoning: grain has to vary with brightness, it has to have physical size, and it has to go through the rest of your processing rather than sit on top of it. Get those three right and the exact values matter far less than you would think.
+
+Here is how to do it in the tools people actually use.
+
+## The three rules
+
+Before any specific tool, the principles that determine whether grain reads as real.
+
+**1. It must vary with luminance.** Uniform noise across the whole frame is the single biggest tell. Real film grain peaks in the midtones — in bright highlights nearly every crystal has developed, in deep shadows almost none have, so texture is suppressed at both ends. Digital sensor noise does the opposite and peaks in the shadows. Either is defensible; flat and even is not. The full mechanism is in [how camera sensor noise actually works](/blog/how-camera-sensor-noise-works).
+
+**2. It must have size.** Grain is a property of the print, not of the pixel grid. Real grain is slightly soft and clumps at a scale larger than one pixel. Per-pixel random noise looks like television static, which is why the crude approach never convinces.
+
+**3. It must go through your pipeline.** Real grain exists before sharpening and compression, so it interacts with both. Grain added as the last step, after everything else, has been through none of that and the mismatch is visible.
+
+Everything below is a way of satisfying these three in a particular tool.
+
+## Lightroom and Camera Raw
+
+The easiest good result, because Adobe's grain implementation is already luminance-aware.
+
+Find the **Effects** panel. Three sliders:
+
+- **Amount** — how strong. Start at **12–20** for a subtle film look. Above 40 you are making a stylistic statement rather than adding texture.
+- **Size** — the physical scale. **25–40** is a reasonable range for a 35mm feel at full resolution. Larger values simulate a bigger enlargement or faster stock. Below about 20 it starts to look digital.
+- **Roughness** — irregularity in the grain structure. **50–70** reads as film; lower values look uniform and synthetic.
+
+The important part: **Size and Roughness matter more than Amount.** Most people push Amount and leave the other two at default, which produces strong, small, uniform grain — precisely the look everyone recognises as fake. Lower the amount and raise the size.
+
+Lightroom applies grain within the raw pipeline, so rule 3 is handled for you. It also scales grain relative to the image dimensions, which is why a setting that looks right on export can look wrong if you crop heavily afterwards — check after cropping, not before.
+
+## Photoshop
+
+More work, and correspondingly more control. The non-destructive method:
+
+1. **Layer → New → Layer**, set **Mode: Overlay**, and tick **Fill with Overlay-neutral color (50% gray)**. This creates a layer that is invisible until you add something to it.
+2. **Filter → Noise → Add Noise.** Amount around **8–15%**, Distribution **Gaussian** (not Uniform — Gaussian clusters more like real grain), and tick **Monochromatic**.
+3. **Filter → Blur → Gaussian Blur** at **0.3–0.6 px.** This is the step almost everyone skips and it is what satisfies rule 2 — it moves energy out of the highest frequencies so the grain has size rather than being per-pixel static.
+4. **Convert the layer to a Smart Object** first if you want to adjust the filters later.
+5. Adjust **layer opacity** to taste, typically **40–70%**.
+
+The Overlay blend mode is doing the critical work. Overlay scales its effect by the brightness of the pixel underneath, so the noise lands hardest in the midtones and compresses at both ends — rule 1, satisfied by the blend mode rather than by masking. **Soft Light** does the same thing more gently if Overlay is too strong.
+
+Never use **Normal** blend mode for grain. That is the flat, pasted-on look.
+
+For finer control, add a **Blend If** adjustment (double-click the layer → Layer Style) to pull the grain out of the extreme highlights and shadows explicitly.
+
+### Adding chroma noise
+
+For a digital high-ISO look rather than a film look, real sensor output has a colour component. Add a second noise layer with **Monochromatic unticked**, blur it more heavily (**1.5–3 px**, since chroma noise is coarser than luminance noise), and drop the opacity to around **15–25%**. Weight both layers toward the shadows rather than the midtones.
+
+## Affinity Photo
+
+The same logic, slightly different route.
+
+Add a **Pixel layer**, fill it with 50% grey (**Edit → Fill**), then **Filters → Noise → Add Noise**. Set the layer blend mode to **Overlay**. Apply **Filters → Blur → Gaussian Blur** at a fraction of a pixel.
+
+Affinity also has a **Noise** slider inside the Develop persona, which behaves more like Lightroom's and is fine for quick work.
+
+## GIMP (free)
+
+Fully capable, just more manual.
+
+1. **Layer → New Layer**, fill with 50% grey.
+2. **Filters → Noise → RGB Noise.** Untick **Independent RGB** to get monochromatic noise. Keep the value low — around **0.05–0.10**.
+3. **Filters → Blur → Gaussian Blur**, radius **0.4**.
+4. Set the layer mode to **Overlay** in the Layers panel, and adjust opacity.
+
+Identical reasoning to the Photoshop method, and it costs nothing.
+
+## Darktable and RawTherapee (free)
+
+Both have dedicated grain modules built on film response curves, which means rule 1 is handled properly by default.
+
+In **darktable**, the module is **grain**. Its coarseness parameter corresponds to film speed, so it scales grain size the way real stock does. In **RawTherapee**, look for **Film Simulation** and the grain controls in the Detail tab.
+
+Because both apply grain within the raw processing pipeline, rule 3 is also satisfied without effort. For anyone doing this regularly on raw files, these are better tools for the job than a general image editor.
+
+## Doing it in a browser
+
+If you want texture on an image without installing anything, our [Photo Humanizer](/humanize-photo) does the process described in the Photoshop section automatically: softened monochromatic noise, composited with an overlay blend so it weights the midtones, followed by a light sharpening pass and a JPEG encode with chroma subsampling so the grain goes through a plausible pipeline rather than sitting on top.
+
+Its limits, stated plainly: one strength setting with no control, no separate chroma noise layer, and no scaling of grain size to output dimensions. For a considered edit, the manual methods above give you more. For making an over-clean image read as photographic in one step, it does the job.
+
+## The three mistakes
+
+**Too strong.** By a wide margin the most common. If you consciously notice the grain, it is too much — the target is texture you would only miss if it were removed. Set it where you like it, then halve it.
+
+**Wrong order.** Grain belongs late in the edit but **before** final sharpening, resizing, and export compression, so it interacts with them the way real grain would. Adding it after a resize is worse still: grain applied before a large downscale disappears, and grain applied before an upscale turns into blobs. Work at final output size.
+
+**Wrong subject.** Grain reads as authentic on reportage, portraits, and low-light scenes, because those were historically shot on fast stock. On a bright, clean product shot it reads as a filter, because no photographer would have chosen grainy film for that. Match the texture to a plausible capture condition.
+
+A fourth worth adding: **do not stack grain on an already-noisy image.** A high-ISO photo has sensor noise already. Adding more produces a muddy double texture. Denoise first or leave it alone.
+
+## Checking your result
+
+Two tests that catch most failures.
+
+**View at 100% and at fit-to-screen.** Grain that looks right zoomed in is frequently invisible zoomed out, or vice versa. It has to work at the size people will actually see it.
+
+**Check the highlights and the shadows specifically.** Grain in a blown highlight is a physical impossibility and the eye registers it even without diagnosing it. If your brightest areas are textured, your blend mode is wrong — almost certainly set to Normal.
+
+And the general caution: grain is a finishing pass, not a repair. It will not fix composition, lighting, or the anatomical failures that give generated images away. Those get caught long before texture does — the hierarchy is in [why AI-generated images look fake](/blog/why-ai-generated-images-look-fake).
