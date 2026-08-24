@@ -43,9 +43,26 @@ const FAQS = [
   },
 ];
 
+// Mirrors the FAQS rendered below so the accordion is eligible for FAQ rich
+// results. Keep the two in sync — Google penalises schema that does not match
+// visible page content.
+const FAQ_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQS.map((faq) => ({
+    "@type": "Question",
+    name: faq.q,
+    acceptedAnswer: { "@type": "Answer", text: faq.a },
+  })),
+};
+
 export default function Home() {
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_JSON_LD) }}
+      />
       <section className="mx-auto max-w-6xl px-6 pt-20 pb-16 sm:pt-28">
         <div className="mx-auto max-w-3xl text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-line bg-paper-dim/60 px-4 py-1.5 text-xs font-medium text-ink-soft">

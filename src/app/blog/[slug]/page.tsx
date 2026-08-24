@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import {
+  CATEGORIES,
   MIN_WORDS_FOR_ADS,
   getAllPosts,
   getPostBySlug,
@@ -37,6 +38,15 @@ export async function generateMetadata({
       publishedTime: post.date || undefined,
       modifiedTime: post.updated || post.date || undefined,
       authors: [AUTHOR.name],
+      images: [
+        { url: `/og/${slug}.png`, width: 1200, height: 630, alt: post.title },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.description,
+      images: [`/og/${slug}.png`],
     },
     alternates: { canonical: `/blog/${slug}` },
   };
@@ -75,6 +85,27 @@ export default async function BlogPostPage({
       url: SITE_URL,
     },
     mainEntityOfPage: `${SITE_URL}/blog/${slug}`,
+    image: `${SITE_URL}/og/${slug}.png`,
+    articleSection: CATEGORIES[post.category].label,
+    keywords: post.keywords.length ? post.keywords.join(", ") : undefined,
+    isAccessibleForFree: true,
+  };
+
+  // Lets Google render the Blog › Category › Article trail in search results
+  // instead of a bare URL.
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Blog", item: `${SITE_URL}/blog` },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: CATEGORIES[post.category].label,
+        item: `${SITE_URL}/blog/category/${post.category}`,
+      },
+      { "@type": "ListItem", position: 3, name: post.title },
+    ],
   };
 
   return (
@@ -83,13 +114,19 @@ export default async function BlogPostPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
 
       <nav aria-label="Breadcrumb" className="text-sm text-ink-soft">
         <Link href="/blog" className="hover:text-ink">
           Blog
         </Link>
         <span aria-hidden="true"> / </span>
-        <span>{post.title}</span>
+        <Link href={`/blog/category/${post.category}`} className="hover:text-ink">
+          {CATEGORIES[post.category].label}
+        </Link>
       </nav>
 
       <h1 className="font-display mt-3 text-4xl font-semibold tracking-tight">{post.title}</h1>

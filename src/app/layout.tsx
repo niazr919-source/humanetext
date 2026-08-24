@@ -37,14 +37,31 @@ export const metadata: Metadata = {
     url: SITE_URL,
     siteName: "Humanetext",
     type: "website",
+    images: [{ url: "/og/default.png", width: 1200, height: 630, alt: "Humanetext" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Humanetext — Make AI content sound and look natural",
     description:
       "Rewrite robotic AI text so it reads naturally, and add authentic photographic texture to AI images.",
+    images: ["/og/default.png"],
   },
   other: ADSENSE_CLIENT_ID ? { "google-adsense-account": ADSENSE_CLIENT_ID } : undefined,
+  alternates: {
+    canonical: "/",
+    types: { "application/rss+xml": `${SITE_URL}/feed.xml` },
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
 };
 
 const ORG_JSON_LD = {
