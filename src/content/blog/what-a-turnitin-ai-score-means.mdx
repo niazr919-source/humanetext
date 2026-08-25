@@ -1,0 +1,88 @@
+---
+title: "What a Turnitin AI Score Actually Means"
+description: "The percentage is not a probability that you cheated, and it is not a similarity score. What the number counts, what Turnitin's own guidance says about it, and how to read one properly."
+date: "2026-08-24"
+category: "detection"
+keywords: "turnitin ai score meaning, turnitin ai detection percentage, what does 40 percent ai mean turnitin, turnitin ai indicator explained, turnitin false positive"
+---
+
+A Turnitin AI score is one of the most widely misread numbers in education. Students see 38% and conclude that a bit over a third of their work looks suspicious. Staff sometimes read the same number as a 38% chance of misconduct. Neither is what it measures.
+
+The confusion is understandable, because the number sits next to a similarity score that works completely differently, in an interface that presents both as percentages. This is what the AI indicator actually reports, what it does not, and how to read one without drawing the wrong conclusion.
+
+## It is not the similarity score
+
+Worth separating first, because the two get conflated constantly.
+
+The **similarity score** compares your text against a corpus of published work, student submissions, and web pages, and reports how much of your document matches something else. It is verifiable: you can click through and see the matching source. A high similarity score points at a specific document you can examine.
+
+The **AI writing indicator** compares nothing. There is no source document, because none exists. It is a statistical estimate about the text itself, and it cannot show you what your work supposedly came from. If you ask what the evidence is, the honest answer is that the number *is* the evidence — there is nothing behind it to inspect.
+
+That asymmetry is the single most important thing to understand about it, and it is worth naming explicitly if you are ever discussing a score with someone treating it like a plagiarism match.
+
+## What the percentage counts
+
+Turnitin's indicator works at the level of sentences. The system segments your document, classifies each segment as likely human-written or likely AI-generated, and the headline percentage reports **how much of the qualifying text was classified as AI-generated** — not a confidence level, not a probability of misconduct.
+
+So 38% means roughly: of the prose the system was able to assess, a bit over a third of the sentences fell on the AI side of its classifier's boundary. It does not mean the system is 38% sure. A document can be 100% flagged with the classifier being quite uncertain about every individual sentence, and a document can be 0% flagged for text that was in fact generated.
+
+Two consequences follow that catch people out.
+
+**Short documents are unreliable.** Turnitin applies a minimum length before it will produce an indicator at all, because classification on a small sample is close to guessing. Even above that threshold, shorter submissions produce noisier results.
+
+**Not all of your document is assessed.** Prose is evaluated; other material is excluded or handled differently. This is part of why the percentage does not map cleanly onto "how much of my essay."
+
+## What Turnitin itself says
+
+This is the part worth quoting in any conversation about a score, because it comes from the vendor rather than from a critic.
+
+Turnitin's guidance to institutions states that the AI indicator is **not a determination of misconduct** and should not be used as the sole basis for an academic integrity finding. The company frames it as a signal that may warrant a conversation — a prompt for enquiry, not a verdict.
+
+It also acknowledges false positives. Turnitin has publicly discussed adjusting its thresholds to reduce them, and has flagged that documents with high proportions of certain writing styles are more prone to misclassification.
+
+If your institution is treating the score as conclusive, that is a departure from the vendor's own guidance, and pointing this out politely is often more effective than arguing about detection science.
+
+## Why plain, careful writing scores higher
+
+The mechanism explains the pattern of who gets flagged, and it is not intuitive.
+
+Detectors of this kind estimate **predictability**. A language model reads the text and, at each word, measures how surprised it is by what actually appears. Writing that consistently uses the expected word is statistically similar to generated text, because generation works by repeatedly choosing likely words.
+
+So the writing that scores as most AI-like is writing that is clear, conventional, grammatically tidy, and uses common vocabulary. That is a description of good expository prose. It is also a description of:
+
+- **Second-language writing**, where a smaller active vocabulary means safer, higher-frequency word choices. Research published in *Patterns* found detectors misclassify non-native English writing at dramatically elevated rates — the mechanism is covered in [why AI detectors fail non-native English speakers](/blog/why-ai-detectors-fail-non-native-speakers).
+- **Heavily proofread work**, where the idiosyncrasies that raise perplexity have been edited out.
+- **Technical and formal registers**, which are deliberately uniform by convention.
+- **Writing produced with grammar tools**, which nudge text toward the statistical centre by design.
+
+The uncomfortable implication: the students most likely to be flagged are frequently the ones who worked hardest on clarity.
+
+## How to read a score you have been shown
+
+If you are on either side of one of these conversations, a few practical points.
+
+**Treat it as a question, not a finding.** The appropriate response to a high score is to look at process evidence — version history, drafts, notes — and to talk to the person about their work. Someone who wrote a piece can explain why the third section exists and what they nearly cut. Someone who did not, cannot.
+
+**Weight the length.** Below a few hundred words of assessed prose, the number carries very little information.
+
+**Weight the writer.** For a non-native English speaker, the score means substantially less, and there is published evidence for that rather than just an argument.
+
+**Do not compare across detectors casually.** Different tools use different classifiers and thresholds, and the same passage routinely scores 90% on one and 10% on another. That disagreement is not a sign that one is right — it is a sign that they are estimating rather than measuring.
+
+**Remember it cannot cite anything.** Unlike a similarity match, there is no source to check. Any conclusion drawn from it is drawn from the number alone.
+
+## If your work has been flagged
+
+The short version: preserve your version history before you edit anything, find your institution's written policy and its appeal deadline, offer to discuss the work in detail, and be exactly honest about any assistance you did use.
+
+The full sequence — what to preserve, in what order, and how to word a response — is in [falsely accused of using AI](/blog/falsely-accused-of-using-ai), with adaptable wording in [appeal letter templates](/blog/ai-accusation-appeal-letter-templates).
+
+One thing not to do: run the flagged work through a rewriting tool to lower the score. That includes [ours](/humanize-text). Changing the text after an accusation is indefensible, and if the version you defend differs from the version you submitted, you have created a worse problem than the one you started with.
+
+## The wider point
+
+Turnitin's indicator is a reasonable engineering response to a genuinely hard problem, and the company has been more careful in its public guidance than its critics sometimes allow. The failure is mostly in how the number gets used — a percentage in an interface acquires an authority the underlying estimate does not have, particularly when it sits beside a similarity score that means something entirely different.
+
+Reliable detection of AI-written text is not currently possible, and there are structural reasons to doubt it becomes possible: models are trained to imitate human text, so the distributions converge as models improve. We go through that in [how AI content detectors actually work](/blog/how-ai-content-detectors-work).
+
+Until assessment practice catches up, the practical defence is unchanged and unglamorous: keep your drafts, keep your notes, and be able to talk about your own ideas.

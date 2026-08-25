@@ -1,0 +1,120 @@
+---
+title: "How to Fix Colour Banding in Gradients"
+description: "Why smooth gradients break into visible steps, why adding noise is the actual fix rather than a workaround, and settings that work in Photoshop, Lightroom, CSS, and video."
+date: "2026-08-24"
+category: "photography"
+keywords: "fix color banding gradient, banding in sky photoshop, dithering gradient noise, 8 bit banding fix, why does my gradient have bands"
+---
+
+You export a photograph with a clean sky, or a design with a subtle background gradient, and the smooth transition arrives as a series of visible steps — concentric bands marching across what should be a continuous tone.
+
+It is one of the most common and most misdiagnosed problems in digital imaging. People raise contrast, apply blur, or re-export at higher quality, and none of it works, because the cause is arithmetic rather than compression.
+
+The fix, once you understand why it happens, is slightly counterintuitive: you add noise.
+
+## Why banding happens
+
+An 8-bit image has 256 possible values per channel. That sounds like plenty, and for most content it is.
+
+Now consider a sky gradient running from a light blue at the top of the frame to a slightly lighter blue at the horizon — a genuinely subtle transition covering, say, 20 of those 256 levels. Spread across 3,000 pixels of image height, each of those 20 levels has to cover 150 pixels.
+
+The result is 150 pixels of identical value, then an abrupt jump to the next value, 150 more, another jump. The human visual system is extremely good at detecting edges, and it finds those steps immediately — a phenomenon amplified by **Mach bands**, a perceptual effect that exaggerates contrast at boundaries, making the steps look even more pronounced than they measurably are.
+
+So banding is not a defect in your file. It is what happens when a smooth real-world gradient is quantised into too few discrete levels and stretched over too much area.
+
+Three things make it worse:
+
+**Narrow tonal range over large areas.** Skies, studio backdrops, out-of-focus backgrounds, subtle vignettes. The gentler the gradient, the fewer levels available and the wider each step.
+
+**Editing.** Every curve, level, and contrast adjustment redistributes values. Pushing a 20-level range out to 40 levels does not create new information — it spreads the same 20 values further apart, so the steps get wider. This is why banding often appears *after* editing an image that looked fine.
+
+**8-bit workflows.** Starting from an 8-bit JPEG gives you no headroom at all. A 16-bit raw file has 65,536 levels per channel, so the same gradient has vastly more intermediate values to work with.
+
+## The fix: add noise
+
+The counterintuitive part. Adding a small amount of random noise to a banded gradient makes it look smooth.
+
+This works because the noise **dithers** the boundaries. Instead of 150 pixels of value 143 followed by 150 pixels of value 144, you get a region where pixels randomly take 143 or 144, with the proportion shifting gradually across the transition. The hard edge dissolves into a probabilistic blend, and your visual system — which averages over local areas — reads it as a continuous ramp.
+
+You are trading a small amount of measurable accuracy for a large gain in perceived smoothness. It is the same principle behind dithering in audio and in indexed-colour images, and it is the correct solution rather than a hack.
+
+The amount required is genuinely tiny. Noise strong enough to see is far more than you need.
+
+## Prevention, which is better
+
+Fixing banding is easier if you avoid creating it.
+
+**Work in 16-bit.** From raw, this costs you nothing but file size. In Photoshop, Image → Mode → 16 Bits/Channel before you start adjusting. All your curves and levels then operate on 65,536 values instead of 256, and the gradient survives editing that would destroy an 8-bit version. Convert to 8-bit only at export.
+
+**Make big tonal moves early, in the raw processor.** Lightroom and Camera Raw work on the raw data at high precision. A contrast adjustment there is far less destructive than the same adjustment applied later to a rendered 8-bit file.
+
+**Avoid stacking heavy adjustments.** Each one redistributes values. Three moderate curves are worse than one considered one.
+
+**Do not over-denoise.** Aggressive noise reduction strips exactly the natural sensor noise that was dithering your gradient for free. Images frequently band *because* they were denoised — the grain was doing useful work.
+
+That last point is worth sitting with. A slightly noisy original often looks smoother than a heavily cleaned one, because real sensor noise is a natural dither. The mechanism behind that noise is covered in [how camera sensor noise actually works](/blog/how-camera-sensor-noise-works).
+
+## Photoshop
+
+The non-destructive method:
+
+1. **Layer → New → Layer**, set **Mode: Overlay**, tick **Fill with Overlay-neutral color (50% gray)**.
+2. **Filter → Noise → Add Noise.** Amount **1–3%**, Distribution **Gaussian**, tick **Monochromatic**.
+3. Reduce layer opacity if it is still visible — typically **30–60%**.
+
+Overlay scales the effect by underlying brightness, so the dither lands where the tones actually are rather than sitting flat across the frame. Convert the layer to a Smart Object first if you want to adjust the amount later.
+
+For banding confined to one area — a sky, a backdrop — mask the noise layer to that region. There is no benefit to dithering parts of the image that have real detail, since detail is already doing the job.
+
+If the banding is severe, add a **Gaussian Blur of 0.3–0.5 px** to the noise layer. This gives the dither a slightly larger grain structure, which breaks up wide bands more effectively than per-pixel noise.
+
+### Diagnosing it first
+
+Banding can be hard to see at fit-to-screen. To confirm you have it, add a temporary **Levels** adjustment layer and drag the input sliders sharply inward — this exaggerates tonal differences and makes bands unmistakable. Delete the layer afterwards. It is a diagnostic, not an edit.
+
+## Lightroom and Camera Raw
+
+There is no dedicated dither control, so use the grain sliders in **Effects**:
+
+- **Amount: 5–12** — much lower than you would use for a film look
+- **Size: 20–30**
+- **Roughness: 50**
+
+This applies globally, which is usually fine because the amount is so low. For sky-only banding, use a **linear or radial gradient mask** and raise grain within it, leaving the rest untouched.
+
+Also check your **noise reduction**. If Luminance is above 40 or so on an image with subtle gradients, pulling it back frequently solves the banding on its own by leaving the natural dither intact.
+
+## Export settings
+
+Banding is often introduced at export rather than in the edit.
+
+**JPEG quality.** Below about 85, chroma subsampling and block compression will introduce banding in smooth areas even when the source is clean. For images with significant gradients, export at 90+.
+
+**PNG-24, not PNG-8.** PNG-8 is indexed to 256 total colours across the whole image. Any gradient will band badly. Confirm you are exporting 24-bit.
+
+**Colour profile.** Converting between profiles remaps values and can introduce steps. Export in the profile you edited in where possible, and use **Relative Colorimetric** with black point compensation when converting.
+
+**Resizing.** Downscaling a banded image tends to hide banding; upscaling amplifies it. Add dither after resizing, at final output dimensions.
+
+## Web and CSS
+
+Browser-rendered gradients band too, particularly large subtle ones behind hero sections.
+
+The reliable fix is a tiled noise texture over the gradient at very low opacity — an SVG `feTurbulence` filter encoded as a data URI, or a small repeating PNG, at 2–4% opacity. Same dithering principle, applied in the browser.
+
+Two other things help:
+
+- **Add intermediate colour stops.** Browsers interpolate linearly between stops; giving them three or four stops instead of two shortens each interpolated run and reduces step width.
+- **Use a subtle angle.** A gradient at 175° rather than 180° breaks bands into diagonal edges, which are less visually obvious than perfectly horizontal ones.
+
+## Video
+
+Banding is more visible in motion, because static bands in a moving frame read as an artefact immediately.
+
+Most consumer codecs are 8-bit with 4:2:0 chroma subsampling, which makes gradients fragile. Where the pipeline allows it, shoot and grade in 10-bit — that alone eliminates most banding. Otherwise, apply a small amount of grain before final encode, and raise the bitrate for content with large smooth areas, since compression allocates bits to detail and starves flat regions.
+
+## The general principle
+
+Every version of this fix is the same idea: **randomness at the boundary is more perceptually pleasant than a clean edge in the wrong place.**
+
+That is worth generalising. A perfectly smooth, noise-free image is not a neutral ideal — it is an unnatural state that real optical capture never produces, and one the eye reads as synthetic. Some of what looks like a quality problem in overly clean images is the absence of expected imperfection rather than the presence of a defect. We go into that in [why AI-generated images look fake](/blog/why-ai-generated-images-look-fake), and the practical settings for adding texture deliberately are in [how to add realistic film grain](/blog/how-to-add-realistic-film-grain).
