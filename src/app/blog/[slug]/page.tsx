@@ -27,7 +27,9 @@ export async function generateMetadata({
   const post = getPostBySlug(slug);
   if (!post) return {};
   return {
-    title: post.title,
+    // `absolute` drops the " | Humanetext" suffix. Google truncates titles
+    // near 60 characters and the brand was pushing every headline over.
+    title: { absolute: post.title },
     description: post.description,
     keywords: post.keywords.length ? post.keywords : undefined,
     authors: [{ name: AUTHOR.name }],

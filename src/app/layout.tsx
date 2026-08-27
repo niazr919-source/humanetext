@@ -1,16 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Source_Serif_4 } from "next/font/google";
+import { Geist, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
@@ -78,11 +73,6 @@ const WEBSITE_JSON_LD = {
   "@type": "WebSite",
   name: "Humanetext",
   url: SITE_URL,
-  potentialAction: {
-    "@type": "SearchAction",
-    target: `${SITE_URL}/blog?q={search_term_string}`,
-    "query-input": "required name=search_term_string",
-  },
 };
 
 export default function RootLayout({
@@ -93,7 +83,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${sourceSerif.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${sourceSerif.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-paper text-ink">
         <script
