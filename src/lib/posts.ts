@@ -43,6 +43,12 @@ export function isCategorySlug(value: string): value is CategorySlug {
   return Object.prototype.hasOwnProperty.call(CATEGORIES, value);
 }
 
+/** A question and its answer, rendered on the page and emitted as FAQPage. */
+export interface Faq {
+  q: string;
+  a: string;
+}
+
 export interface PostMeta {
   slug: string;
   title: string;
@@ -54,6 +60,15 @@ export interface PostMeta {
   category: CategorySlug;
   readingMinutes: number;
   wordCount: number;
+  /**
+   * A direct, self-contained answer to the question the article title asks.
+   * Articles open with a narrative hook, which reads well but gives answer
+   * engines nothing liftable; this gives them a quotable paragraph that still
+   * makes sense with no surrounding context.
+   */
+  answer: string;
+  /** Extractable Q&A pairs, also emitted as FAQPage structured data. */
+  faqs: Faq[];
 }
 
 export interface Post extends PostMeta {
@@ -64,6 +79,14 @@ function parseKeywords(raw: unknown): string[] {
   if (Array.isArray(raw)) return raw.map(String);
   if (typeof raw === "string") return raw.split(",").map((k) => k.trim()).filter(Boolean);
   return [];
+}
+
+function parseFaqs(raw: unknown): Faq[] {
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .filter((item): item is Record<string, unknown> => typeof item === "object" && item !== null)
+    .map((item) => ({ q: String(item.q ?? ""), a: String(item.a ?? "") }))
+    .filter((faq) => faq.q && faq.a);
 }
 
 function parseCategory(raw: unknown): CategorySlug {
@@ -92,6 +115,8 @@ function toMeta(file: string, raw: string): PostMeta {
     category: parseCategory(data.category),
     readingMinutes: Math.max(1, Math.round(wordCount / WORDS_PER_MINUTE)),
     wordCount,
+    answer: data.answer ?? "",
+    faqs: parseFaqs(data.faqs),
   };
 }
 

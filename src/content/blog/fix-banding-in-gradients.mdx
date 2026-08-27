@@ -3,6 +3,16 @@ title: "How to Fix Colour Banding in Gradients"
 description: "Why smooth gradients break into visible steps, why adding noise is the real fix, and settings for Photoshop, Lightroom, CSS, and video."
 date: "2026-08-24"
 category: "photography"
+answer: "Colour banding happens because an 8-bit image has only 256 levels per channel, so a subtle gradient spread across thousands of pixels produces wide bands of identical value with visible steps between them. The fix is to add a small amount of noise, which dithers the boundaries so your eye averages them into a smooth ramp. Working in 16-bit prevents it in the first place."
+faqs:
+  - q: "Why does my sky have visible bands?"
+    a: "A gentle gradient covering few tonal levels spread over a large area means each level occupies many pixels, producing visible steps. Editing makes it worse, because adjustments spread the same values further apart without creating new ones."
+  - q: "How do I fix banding in Photoshop?"
+    a: "Add a 50% grey layer set to Overlay, apply Gaussian monochromatic noise at 1-3%, then blur it by 0.3-0.5 pixels. Reduce opacity until the dither is invisible but the banding is gone."
+  - q: "Does noise reduction cause banding?"
+    a: "Often, yes. Aggressive denoising strips the natural sensor noise that was dithering the gradient for free, so a slightly noisy original can look smoother than a heavily cleaned one."
+  - q: "How do I prevent banding?"
+    a: "Work in 16-bit from raw, make large tonal adjustments early in the raw processor rather than later on an 8-bit file, avoid stacking heavy curves, and export JPEGs at quality 90 or above."
 keywords: "fix color banding gradient, banding in sky photoshop, dithering gradient noise, 8 bit banding fix, why does my gradient have bands"
 ---
 

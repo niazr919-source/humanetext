@@ -116,6 +116,20 @@ export default async function BlogPostPage({
     ],
   };
 
+  // Only emitted when the questions are visibly on the page — schema that does
+  // not match rendered content is a structured-data violation.
+  const faqJsonLd = post.faqs.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: post.faqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.q,
+          acceptedAnswer: { "@type": "Answer", text: faq.a },
+        })),
+      }
+    : null;
+
   return (
     <article className="mx-auto w-full max-w-2xl px-6 py-16">
       <script
@@ -126,6 +140,12 @@ export default async function BlogPostPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
 
       <nav aria-label="Breadcrumb" className="text-sm text-ink-soft">
         <Link href="/blog" className="hover:text-ink">
@@ -149,9 +169,34 @@ export default async function BlogPostPage({
         />
       </div>
 
+      {post.answer && (
+        <div className="mt-8 rounded-2xl border border-line bg-paper-dim/50 p-6">
+          <p className="text-xs font-semibold uppercase tracking-wide text-accent-dark">
+            The short answer
+          </p>
+          <p className="mt-2">{post.answer}</p>
+        </div>
+      )}
+
       <div className="prose prose-neutral mt-8 max-w-none prose-headings:font-display prose-a:text-accent-dark">
         <MDXRemote source={post.content} />
       </div>
+
+      {post.faqs.length > 0 && (
+        <section className="mt-14 border-t border-line pt-8">
+          <h2 className="font-display text-xl font-semibold tracking-tight">
+            Common questions
+          </h2>
+          <dl className="mt-4 divide-y divide-line">
+            {post.faqs.map((faq) => (
+              <div key={faq.q} className="py-4">
+                <dt className="font-medium">{faq.q}</dt>
+                <dd className="mt-1.5 text-ink-soft">{faq.a}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      )}
 
       <RelatedPosts posts={related} />
 

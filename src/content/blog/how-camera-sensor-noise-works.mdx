@@ -3,6 +3,16 @@ title: "How Camera Sensor Noise Actually Works"
 description: "Photon shot noise, read noise, and pattern noise explained without the physics degree, plus why synthetic grain overlays fail to fool the eye."
 date: "2026-08-06"
 category: "photography"
+answer: "Digital image noise is mostly photon shot noise: light arrives at random intervals, so a photosite collecting an average of 10,000 photons varies by about 100, while one collecting 100 varies by about 10. Because the spread scales with the square root of the count, noise is proportionally stronger in shadows and weaker in highlights. Raising ISO does not add noise; it amplifies a signal that already had it."
+faqs:
+  - q: "Does high ISO cause noise?"
+    a: "No. ISO amplifies a signal that already contains noise. Images shot at high ISO are noisy because they were shot in low light, meaning fewer photons and worse shot noise, not because the number was high."
+  - q: "What is photon shot noise?"
+    a: "The random variation in how many photons arrive at a sensor during an exposure. It follows a Poisson distribution, so the standard deviation is the square root of the mean, which is why dark areas are proportionally noisier."
+  - q: "What is the difference between film grain and digital noise?"
+    a: "Film grain is physical structure from silver halide crystals and peaks in the midtones. Digital noise is statistical variation in photon counting and peaks in the shadows. They are unrelated mechanisms with opposite distributions."
+  - q: "What is chroma noise?"
+    a: "Coloured blotches, larger than single pixels, most visible in dark flat areas. It arises because colour channels are counted separately then interpolated during demosaicing, which correlates neighbouring pixels."
 keywords: "camera sensor noise explained, photon shot noise, film grain vs digital noise, why fake grain looks bad, add realistic grain to ai image"
 ---
 

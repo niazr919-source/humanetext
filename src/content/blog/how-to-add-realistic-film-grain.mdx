@@ -3,6 +3,16 @@ title: "How to Add Realistic Film Grain (5 Tools)"
 description: "Step-by-step settings for five tools, why blend mode matters more than amount, and the three mistakes that make grain look pasted on."
 date: "2026-08-20"
 category: "photography"
+answer: "Realistic grain follows three rules: it must vary with brightness rather than sitting flat across the frame, it must have physical size rather than being per-pixel static, and it must be added before final sharpening and compression. In practice that means a monochromatic noise layer, blurred by a fraction of a pixel, composited with an Overlay blend mode - never Normal - at final output size."
+faqs:
+  - q: "What blend mode should I use for film grain?"
+    a: "Overlay, or Soft Light for a gentler result. Both scale the effect by the brightness underneath, which is what produces the luminance dependence real grain has. Normal blend mode is what makes grain look pasted on."
+  - q: "What are good grain settings in Lightroom?"
+    a: "Amount 12-20, Size 25-40, Roughness 50-70 for a subtle 35mm feel. Size and Roughness matter more than Amount; most people raise Amount and leave the others at default, which produces the recognisably fake look."
+  - q: "Why does my added grain look fake?"
+    a: "Usually one of three things: it is applied evenly regardless of brightness, it is per-pixel static with no size, or it was added after resizing and compression rather than before."
+  - q: "Should grain be strongest in the shadows or the midtones?"
+    a: "Film grain peaks in the midtones; digital sensor noise peaks in the shadows. They are opposites, so choose which look you are emulating and weight it accordingly."
 keywords: "how to add film grain lightroom, photoshop grain tutorial, realistic grain settings, add grain gimp affinity, film grain blend mode"
 ---
 

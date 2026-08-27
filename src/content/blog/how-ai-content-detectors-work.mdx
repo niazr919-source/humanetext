@@ -4,6 +4,16 @@ description: "A plain-language explanation of perplexity, burstiness, and the st
 date: "2026-06-23"
 updated: "2026-08-23"
 category: "detection"
+answer: "AI content detectors do not detect AI. They estimate how statistically predictable a piece of text is, using perplexity - how surprised a language model is by each word - and burstiness, how much sentence length varies. Predictable, uniform text is scored as machine-written, which is why clear writing, formal registers, and second-language English are flagged at elevated rates regardless of who wrote them."
+faqs:
+  - q: "What is perplexity in AI detection?"
+    a: "Perplexity measures how surprised a language model is by the words in a text. Low perplexity means each word was highly predictable, which detectors treat as a sign of machine generation, because models generate by choosing likely words."
+  - q: "What is burstiness?"
+    a: "Burstiness is how much sentence length and structure vary across a document. Human writing tends to lurch between short and long sentences; generated text is more uniform. Low burstiness is the second main signal detectors use."
+  - q: "Can AI detectors be wrong?"
+    a: "Yes, in both directions. Even a 1% false-positive rate applied across 10,000 submissions wrongly flags around 95 people. Detectors also disagree with each other on the same passage, which shows they are estimating rather than measuring."
+  - q: "Will AI detection get more accurate over time?"
+    a: "There are structural reasons to doubt it. Models are trained to imitate human writing, so the two statistical distributions converge as models improve, meaning better models make detection harder rather than easier."
 keywords: "how do ai detectors work, ai content detector explained, perplexity burstiness, ai detector false positive"
 ---
 
