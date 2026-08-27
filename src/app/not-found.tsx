@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CATEGORIES, getAllPosts, type CategorySlug } from "@/lib/posts";
+import { CATEGORIES, type CategorySlug } from "@/lib/posts";
 
 export const metadata: Metadata = {
   title: "Page not found",
@@ -10,8 +10,9 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 
+// Deliberately reads nothing from disk: this page renders at request time for
+// unknown /blog/<slug> URLs, where the MDX source is not on the filesystem.
 export default function NotFound() {
-  const recent = getAllPosts().slice(0, 4);
   const categories = Object.keys(CATEGORIES) as CategorySlug[];
 
   return (
@@ -66,22 +67,15 @@ export default function NotFound() {
 
       <div className="mt-10">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-ink-soft">
-          Recent articles
+          Everything else
         </h2>
-        <ul className="mt-3 space-y-3">
-          {recent.map((post) => (
-            <li key={post.slug}>
-              <Link href={`/blog/${post.slug}`} className="group block">
-                <span className="font-medium group-hover:text-accent-dark">
-                  {post.title}
-                </span>
-                <span className="mt-0.5 block text-sm text-ink-soft">
-                  {post.description}
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm text-ink-soft">
+          <Link href="/blog" className="hover:text-ink">All articles</Link>
+          <Link href="/about" className="hover:text-ink">About</Link>
+          <Link href="/about/editorial" className="hover:text-ink">Editorial standards</Link>
+          <Link href="/pricing" className="hover:text-ink">Pricing</Link>
+          <Link href="/contact" className="hover:text-ink">Contact</Link>
+        </div>
       </div>
 
       <p className="mt-10 text-sm text-ink-soft">

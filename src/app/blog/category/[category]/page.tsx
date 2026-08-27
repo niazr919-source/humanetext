@@ -8,6 +8,9 @@ import {
   isCategorySlug,
 } from "@/lib/posts";
 
+// The category list is a fixed constant; nothing needs rendering on demand.
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return Object.keys(CATEGORIES).map((category) => ({ category }));
 }

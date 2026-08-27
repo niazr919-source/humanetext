@@ -14,6 +14,12 @@ import AdSlot from "@/components/AdSlot";
 import Byline from "@/components/Byline";
 import RelatedPosts from "@/components/RelatedPosts";
 
+// Every post is known at build time, so there is nothing to render on demand.
+// `dynamicParams = false` makes an unknown slug return the prerendered 404
+// instead of invoking the dynamic renderer — which is returning a 500 rather
+// than a 404 on the production host, and could not be reproduced locally.
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return getAllPosts().map((post) => ({ slug: post.slug }));
 }
