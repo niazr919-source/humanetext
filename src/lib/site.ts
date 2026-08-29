@@ -39,7 +39,7 @@ export const AUTHOR = {
  * set, no ad markup is rendered at all — an <ins> tag pointing at a
  * non-existent unit serves nothing and reports as not found.
  */
-export const ADSENSE_ARTICLE_SLOT = "";
+export const ADSENSE_ARTICLE_SLOT = "7117143463";
 
 /**
  * Date the legal pages were last substantively revised. Update whenever the
