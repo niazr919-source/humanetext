@@ -25,7 +25,9 @@ export default function AdSlot({ slot, className }: Props) {
     }
   }, []);
 
-  if (!ADSENSE_CLIENT_ID) return null;
+  // No client id, or no real ad unit configured: render nothing rather than an
+  // <ins> pointing at a slot that does not exist.
+  if (!ADSENSE_CLIENT_ID || !slot) return null;
 
   return (
     <ins

@@ -9,7 +9,7 @@ import {
   getPostBySlug,
   getRelatedPosts,
 } from "@/lib/posts";
-import { AUTHOR, SITE_NAME, SITE_URL } from "@/lib/site";
+import { ADSENSE_ARTICLE_SLOT, AUTHOR, SITE_NAME, SITE_URL } from "@/lib/site";
 import AdSlot from "@/components/AdSlot";
 import Byline from "@/components/Byline";
 import RelatedPosts from "@/components/RelatedPosts";
@@ -203,7 +203,7 @@ export default async function BlogPostPage({
       {/* Ads only on substantial articles — see MIN_WORDS_FOR_ADS. */}
       {showAds && (
         <div className="mt-10">
-          <AdSlot slot="1111111111" />
+          <AdSlot slot={ADSENSE_ARTICLE_SLOT} />
         </div>
       )}
     </article>

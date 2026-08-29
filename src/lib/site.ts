@@ -32,6 +32,16 @@ export const AUTHOR = {
 } as const;
 
 /**
+ * AdSense ad unit slot ID for the in-article placement.
+ *
+ * Create the unit in AdSense under Ads > By ad unit > Display ads, then paste
+ * the `data-ad-slot` value from the snippet it gives you. Until a real ID is
+ * set, no ad markup is rendered at all — an <ins> tag pointing at a
+ * non-existent unit serves nothing and reports as not found.
+ */
+export const ADSENSE_ARTICLE_SLOT = "";
+
+/**
  * Date the legal pages were last substantively revised. Update whenever the
  * Privacy Policy or Terms are changed in a way that affects users.
  */
