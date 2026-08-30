@@ -1,1 +1,4 @@
+# ads.txt — Authorized Digital Sellers (IAB Tech Lab)
+# Lists the ad systems authorised to sell inventory on humanetext.com.
+# Spec: https://iabtechlab.com/ads-txt/
 google.com, pub-2716080376550479, DIRECT, f08c47fec0942fa0
