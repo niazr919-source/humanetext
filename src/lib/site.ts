@@ -42,14 +42,21 @@ export const AUTHOR = {
 export const ADSENSE_ARTICLE_SLOT = "7117143463";
 
 /**
- * Second ad network, loaded sitewide alongside AdSense.
+ * Third-party ad network scripts, loaded sitewide alongside AdSense.
  *
- * Set to "" to remove the network entirely — nothing else needs changing.
- * If you do remove it, also drop it from the Advertising and Third-party
- * services sections of the privacy policy, which names it.
+ * One entry per Adsterra ad unit. Neither of these renders an in-page banner:
+ * Popunder opens a window behind the tab when a visitor clicks anything, and
+ * Social Bar shows a floating overlay.
+ *
+ * Empty the array to remove the network entirely. Nothing else needs changing,
+ * though the privacy policy names Adsterra and should be updated to match.
  */
-export const SECONDARY_AD_SCRIPT =
-  "https://pl31100036.profitableratecpmnetwork.com/65/e1/d3/65e1d3cfb82fb4f9a1fda1622c2bd458.js";
+export const SECONDARY_AD_SCRIPTS = [
+  // Popunder
+  "https://pl31100036.profitableratecpmnetwork.com/65/e1/d3/65e1d3cfb82fb4f9a1fda1622c2bd458.js",
+  // Social Bar
+  "https://pl31100037.profitableratecpmnetwork.com/dd/ca/33/ddca3358212b766d887e775c7e31d3a7.js",
+];
 
 /**
  * Date the legal pages were last substantively revised. Update whenever the

@@ -3,7 +3,7 @@ import { Geist, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-import { SECONDARY_AD_SCRIPT } from "@/lib/site";
+import { SECONDARY_AD_SCRIPTS } from "@/lib/site";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -94,7 +94,9 @@ export default function RootLayout({
             synchronous, which would block first paint and cost Core Web Vitals
             on every page. Ad scripts are built to load this way; the AdSense
             tag below does the same. */}
-        {SECONDARY_AD_SCRIPT && <script async src={SECONDARY_AD_SCRIPT} />}
+        {SECONDARY_AD_SCRIPTS.map((src) => (
+          <script key={src} async src={src} />
+        ))}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(ORG_JSON_LD) }}
