@@ -23,6 +23,7 @@ const COLUMNS = [
     heading: "Site",
     links: [
       { href: "/about", label: "About" },
+      { href: "/work-with-us", label: "Work with us" },
       { href: "/about/editorial", label: "Editorial standards" },
       { href: "/contact", label: "Contact" },
       { href: "/privacy", label: "Privacy" },
