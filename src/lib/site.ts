@@ -42,7 +42,17 @@ export const AUTHOR = {
 export const ADSENSE_ARTICLE_SLOT = "7117143463";
 
 /**
+ * Second ad network, loaded sitewide alongside AdSense.
+ *
+ * Set to "" to remove the network entirely — nothing else needs changing.
+ * If you do remove it, also drop it from the Advertising and Third-party
+ * services sections of the privacy policy, which names it.
+ */
+export const SECONDARY_AD_SCRIPT =
+  "https://pl31100036.profitableratecpmnetwork.com/65/e1/d3/65e1d3cfb82fb4f9a1fda1622c2bd458.js";
+
+/**
  * Date the legal pages were last substantively revised. Update whenever the
  * Privacy Policy or Terms are changed in a way that affects users.
  */
-export const LEGAL_LAST_UPDATED = "August 23, 2026";
+export const LEGAL_LAST_UPDATED = "August 30, 2026";

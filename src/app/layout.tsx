@@ -3,6 +3,7 @@ import { Geist, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { SECONDARY_AD_SCRIPT } from "@/lib/site";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -86,6 +87,14 @@ export default function RootLayout({
       className={`${geistSans.variable} ${sourceSerif.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-paper text-ink">
+        {/* Second ad network. The vendor asks for this immediately before
+            </head>; the App Router does not expose a literal head element, so
+            it loads as the first thing in the document body, which is the
+            earliest equivalent position. Loaded async — the vendor's snippet is
+            synchronous, which would block first paint and cost Core Web Vitals
+            on every page. Ad scripts are built to load this way; the AdSense
+            tag below does the same. */}
+        {SECONDARY_AD_SCRIPT && <script async src={SECONDARY_AD_SCRIPT} />}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(ORG_JSON_LD) }}
