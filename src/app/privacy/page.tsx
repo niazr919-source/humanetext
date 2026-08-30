@@ -26,9 +26,9 @@ export default function PrivacyPage() {
         </p>
         <p>
           The short version: you can use both tools without an account, we
-          don&apos;t sell your data, and we don&apos;t keep your text or images
-          after we return a result. This site carries third-party advertising,
-          described below.
+          don&apos;t sell your data, we don&apos;t keep your text or images
+          after we return a result, and the only advertising on this site comes
+          from Google AdSense.
         </p>
 
         <h2>Who we are</h2>
@@ -97,17 +97,19 @@ export default function PrivacyPage() {
         <p>
           {SITE_NAME} itself sets no tracking cookies. The only first-party
           storage we use is the single localStorage identifier described above,
-          which exists solely to enforce daily usage limits. Our advertising
-          partners do set their own cookies, described in the next section. Clearing your
+          which exists solely to enforce daily usage limits. Clearing your
           browser storage removes it, and the only consequence is that your
           daily allowance resets.
+        </p>
+        <p>
+          Third parties, principally Google, do set cookies on this site in
+          connection with advertising. Those are described next.
         </p>
 
         <h2>Advertising</h2>
         <p>
-          This site displays advertising served through Google AdSense and through
-          a second advertising network operated by Adsterra. We use advertising
-          to keep both tools free to use.
+          This site displays advertising served through Google AdSense. We use
+          advertising to keep both tools free to use.
         </p>
         <ul>
           <li>
@@ -156,8 +158,8 @@ export default function PrivacyPage() {
           .
         </p>
         <p>
-          Ads never receive the text or images you submit to our tools. Both
-          advertising scripts run in your browser and have no access to the
+          Ads never receive the text or images you submit to our tools. The
+          advertising script runs in your browser and has no access to the
           content sent to our processing endpoints.
         </p>
         <p>
@@ -181,14 +183,8 @@ export default function PrivacyPage() {
             standard access logs.
           </li>
           <li>
-            <strong>Google AdSense</strong> — serves advertising, as described
+            <strong>Google AdSense</strong> — serves the advertising described
             above.
-          </li>
-          <li>
-            <strong>Adsterra</strong> — a second advertising network, loaded on
-            every page. Like AdSense it may set cookies or use similar
-            technologies to select and measure ads, and it may show formats
-            that open in a new window or overlay the page.
           </li>
         </ul>
         <p>
