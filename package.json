@@ -18,7 +18,7 @@
     "@supabase/supabase-js": "^2.112.0",
     "@types/mdx": "^2.0.14",
     "gray-matter": "^4.0.3",
-    "next": "16.2.12",
+    "next": "16.3.2",
     "next-mdx-remote": "^6.0.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
