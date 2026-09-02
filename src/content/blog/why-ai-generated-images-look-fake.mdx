@@ -4,6 +4,19 @@ description: "The visual tells that give generated images away, ranked by the or
 date: "2026-08-02"
 updated: "2026-08-23"
 category: "photography"
+faqs:
+  - q: "Why do AI images look fake?"
+    a: "Usually a stack of small things rather than one. In the order your eye checks them: impossible geometry and lighting, anatomical errors especially in hands and faces, garbled text, objects from mismatched contexts, over-smooth surfaces, and missing capture artefacts like grain, chromatic aberration, and depth-of-field falloff."
+  - q: "Why does AI struggle with hands and text?"
+    a: "Both are high-variance structures the eye is specialised to check. Human perception is finely tuned to hands and faces, so small errors register immediately. Text fails because letterforms must be exactly right to read as letters, and models generate plausible shapes rather than symbols with fixed meanings."
+  - q: "How can you tell if an image is AI-generated?"
+    a: "Work down the hierarchy: check whether shadows fall consistently and reflections match, then hands, ears, and teeth, then any text or logos, then whether objects belong to the same context, then surface texture. The first four are far more reliable than texture, which is also the only tier that can be faked convincingly."
+  - q: "Can adding grain make AI images look real?"
+    a: "It closes the gap for images that are already coherent, by supplying the capture texture that generation strips out. It does nothing for the tiers above texture — grain over an image with two left hands is a textured impossible image. Treat it as a finishing pass, not a repair."
+  - q: "Why are AI images so smooth?"
+    a: "Diffusion models generate by iteratively removing noise, so the process is built to eliminate exactly the high-frequency randomness real capture introduces. Training data compounds it, since images available at scale are disproportionately retouched, and upscaling adds a third smoothing pass."
+  - q: "Will AI images become undetectable?"
+    a: "At the texture level, largely already. The persistent failures are structural — physics, anatomy, and semantic coherence — and those are harder because they require a model of how the world works rather than of how images look. Provenance metadata is a more promising direction than visual detection."
 keywords: "ai images look fake why, ai generated image tells, why do ai images look off, ai image realism"
 ---
 
