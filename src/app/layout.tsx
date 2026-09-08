@@ -17,6 +17,18 @@ const sourceSerif = Source_Serif_4({
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://humanetext.com";
 const ADSENSE_CLIENT_ID = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
 
+/**
+ * Without this, Next marks every prerendered page as fully static and sends
+ * `Cache-Control: s-maxage=31536000` — permission for a CDN to hold the page
+ * for a year. Hostinger's CDN took that literally and served a nine-day-old
+ * homepage to most visitors after a deploy. Giving the routes a revalidate
+ * makes Next emit `s-maxage=600, stale-while-revalidate=3000` instead, so a
+ * stale edge copy corrects itself within the hour without a manual purge.
+ *
+ * Pages are still prerendered at build time; this only changes the header.
+ */
+export const revalidate = 600;
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
