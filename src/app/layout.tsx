@@ -20,15 +20,15 @@ const ADSENSE_CLIENT_ID = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Humanetext — Make AI content sound and look natural",
+    default: "Humanetext — Human Writing, AI Detection & Free Tools",
     template: "%s | Humanetext",
   },
   description:
-    "Rewrite robotic AI text so it reads naturally, and add authentic photographic texture to AI images. Free to use.",
+    "Researched guides on writing that sounds human, how AI detectors work, and what makes a photo look real — plus two free tools.",
   openGraph: {
-    title: "Humanetext — Make AI content sound and look natural",
+    title: "Humanetext — Human Writing, AI Detection & Free Tools",
     description:
-      "Rewrite robotic AI text so it reads naturally, and add authentic photographic texture to AI images. Free to use.",
+      "Researched guides on writing that sounds human, how AI detectors work, and what makes a photo look real — plus two free tools.",
     url: SITE_URL,
     siteName: "Humanetext",
     type: "website",
@@ -36,9 +36,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Humanetext — Make AI content sound and look natural",
+    title: "Humanetext — Human Writing, AI Detection & Free Tools",
     description:
-      "Rewrite robotic AI text so it reads naturally, and add authentic photographic texture to AI images.",
+      "Guides on human writing and AI detection, plus a free text humanizer and photo humanizer.",
     images: ["/og/default.png"],
   },
   other: ADSENSE_CLIENT_ID ? { "google-adsense-account": ADSENSE_CLIENT_ID } : undefined,
@@ -65,7 +65,7 @@ const ORG_JSON_LD = {
   name: "Humanetext",
   url: SITE_URL,
   description:
-    "Free tools that rewrite AI-generated text to sound natural and add authentic camera-like texture to photos.",
+    "A publication on human writing and AI detection, with two free tools: a text humanizer and a photo humanizer.",
 };
 
 const WEBSITE_JSON_LD = {

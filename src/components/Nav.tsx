@@ -3,10 +3,18 @@
 import Link from "next/link";
 import { useState } from "react";
 
-const LINKS = [
-  { href: "/humanize-text", label: "Text" },
-  { href: "/humanize-photo", label: "Photo" },
-  { href: "/blog", label: "Blog" },
+/**
+ * The two tools live in the nav rather than on the homepage, which is an
+ * article index. They stay grouped and labelled in full so the menu is where
+ * people look for them.
+ */
+const TOOL_LINKS = [
+  { href: "/humanize-text", label: "Text Humanizer" },
+  { href: "/humanize-photo", label: "Photo Humanizer" },
+];
+
+const SITE_LINKS = [
+  { href: "/blog", label: "Articles" },
   { href: "/pricing", label: "Pricing" },
   { href: "/about", label: "About" },
   { href: "/work-with-us", label: "Hire us" },
@@ -22,8 +30,20 @@ export default function Nav() {
           Humanetext
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex">
-          {LINKS.map((link) => (
+        <nav className="hidden items-center gap-6 lg:flex">
+          {TOOL_LINKS.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-sm font-semibold text-ink transition-colors hover:text-accent-dark"
+            >
+              {link.label}
+            </Link>
+          ))}
+
+          <span aria-hidden="true" className="h-4 w-px bg-line" />
+
+          {SITE_LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -32,6 +52,7 @@ export default function Nav() {
               {link.label}
             </Link>
           ))}
+
           <Link
             href="/humanize-text"
             className="rounded-full bg-accent px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-accent-dark"
@@ -42,7 +63,7 @@ export default function Nav() {
 
         <button
           onClick={() => setOpen((v) => !v)}
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-line md:hidden"
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-line lg:hidden"
           aria-label="Toggle menu"
           aria-expanded={open}
         >
@@ -54,8 +75,25 @@ export default function Nav() {
       </div>
 
       {open && (
-        <nav className="flex flex-col gap-1 border-t border-line px-6 py-4 md:hidden">
-          {LINKS.map((link) => (
+        <nav className="flex flex-col gap-1 border-t border-line px-6 py-4 lg:hidden">
+          <p className="px-3 pb-1 pt-2 text-xs font-semibold uppercase tracking-wide text-ink-soft">
+            Free tools
+          </p>
+          {TOOL_LINKS.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={() => setOpen(false)}
+              className="rounded-lg px-3 py-2 text-sm font-semibold hover:bg-paper-dim"
+            >
+              {link.label}
+            </Link>
+          ))}
+
+          <p className="px-3 pb-1 pt-4 text-xs font-semibold uppercase tracking-wide text-ink-soft">
+            Site
+          </p>
+          {SITE_LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -65,10 +103,11 @@ export default function Nav() {
               {link.label}
             </Link>
           ))}
+
           <Link
             href="/humanize-text"
             onClick={() => setOpen(false)}
-            className="mt-2 rounded-full bg-accent px-4 py-2 text-center text-sm font-semibold text-white"
+            className="mt-3 rounded-full bg-accent px-4 py-2 text-center text-sm font-semibold text-white"
           >
             Try free
           </Link>

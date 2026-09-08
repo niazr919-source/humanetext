@@ -1,172 +1,260 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { SITE_URL } from "@/lib/site";
+import {
+  CATEGORIES,
+  formatDate,
+  getAllPosts,
+  type CategorySlug,
+  type PostMeta,
+} from "@/lib/posts";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-const BEFORE_EXAMPLE = `In today's fast-paced digital landscape, it is important to note that effective communication plays a crucial role in the overall success of any organization. Furthermore, it is essential to leverage synergies across all departments in order to achieve optimal outcomes.`;
+/** Newest article, shown full-width at the top. */
+const LEAD_COUNT = 1;
+/** Cards shown under the lead before the full topic index. */
+const RECENT_COUNT = 6;
 
-const AFTER_EXAMPLE = `Good communication is what keeps an organization running. When teams actually talk to each other — instead of working in silos — the results speak for themselves.`;
-
-const STEPS = [
-  {
-    title: "Paste or upload",
-    body: "Drop in AI-generated text or an image straight from a generator.",
-  },
-  {
-    title: "We do the work",
-    body: "Our engine rewrites phrasing and rhythm, or adds authentic photographic texture.",
-  },
-  {
-    title: "Use it anywhere",
-    body: "Copy the natural text or download the photo — same meaning, more human feel.",
-  },
-];
-
-const FAQS = [
-  {
-    q: "Will this change the meaning of my text?",
-    a: "No. The rewrite is built to preserve your original meaning, facts, and intent — it only changes phrasing, rhythm, and structure so it reads naturally.",
-  },
-  {
-    q: "What kinds of photos work best?",
-    a: "Both AI-generated images and your own low-quality photos work. We add realistic sensor grain and micro-detail so images read as authentic photography.",
-  },
-  {
-    q: "Is it really free?",
-    a: "Yes — every visitor gets a daily free quota for both tools, no signup required. Sign up with your email for a higher daily limit.",
-  },
-  {
-    q: "Do you store what I upload?",
-    a: "We process your text and photos to generate results and don't use them for anything beyond that request. See our Privacy Policy for details.",
-  },
-];
-
-// Mirrors the FAQS rendered below so the accordion is eligible for FAQ rich
-// results. Keep the two in sync — Google penalises schema that does not match
-// visible page content.
-const FAQ_JSON_LD = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: FAQS.map((faq) => ({
-    "@type": "Question",
-    name: faq.q,
-    acceptedAnswer: { "@type": "Answer", text: faq.a },
-  })),
-};
+function ArticleCard({ post }: { post: PostMeta }) {
+  return (
+    <Link
+      href={`/blog/${post.slug}`}
+      className="group flex flex-col rounded-2xl border border-line p-6 transition-colors hover:border-accent/60 hover:bg-paper-dim/30"
+    >
+      <p className="text-xs font-semibold uppercase tracking-wide text-accent-dark">
+        {CATEGORIES[post.category].label}
+      </p>
+      <h3 className="font-display mt-2 text-lg font-semibold leading-snug group-hover:text-accent-dark">
+        {post.title}
+      </h3>
+      <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-soft">
+        {post.description}
+      </p>
+      <p className="mt-4 text-xs uppercase tracking-wide text-ink-soft">
+        {formatDate(post.date)} · {post.readingMinutes} min read
+      </p>
+    </Link>
+  );
+}
 
 export default function Home() {
+  const posts = getAllPosts();
+  const lead = posts.slice(0, LEAD_COUNT);
+  const recent = posts.slice(LEAD_COUNT, LEAD_COUNT + RECENT_COUNT);
+
+  const categorySlugs = Object.keys(CATEGORIES) as CategorySlug[];
+  const byCategory = categorySlugs
+    .map((slug) => ({
+      slug,
+      ...CATEGORIES[slug],
+      posts: posts.filter((post) => post.category === slug),
+    }))
+    .filter((group) => group.posts.length > 0);
+
+  // Describes the homepage as what it now is — an index of the whole archive.
+  // Every published article is linked below, so the list is complete rather
+  // than a sample, which is what ItemList is meant to represent.
+  const ITEM_LIST_JSON_LD = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Humanetext",
+    url: SITE_URL,
+    description:
+      "Guides on writing that sounds human, how AI detection works, and what makes a photograph read as real.",
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: posts.length,
+      itemListElement: posts.map((post, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        url: `${SITE_URL}/blog/${post.slug}`,
+        name: post.title,
+      })),
+    },
+  };
+
   return (
     <div>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_JSON_LD) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(ITEM_LIST_JSON_LD) }}
       />
-      <section className="mx-auto max-w-6xl px-6 pt-20 pb-16 sm:pt-28">
-        <div className="mx-auto max-w-3xl text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-line bg-paper-dim/60 px-4 py-1.5 text-xs font-medium text-ink-soft">
-            Free content authenticity tools
-          </span>
-          <h1 className="font-display mt-6 text-4xl font-semibold tracking-tight sm:text-6xl">
-            Make AI content sound and look natural
-          </h1>
-          <p className="mt-6 text-lg text-ink-soft sm:text-xl">
-            Humanetext rewrites robotic text into natural, varied prose, and adds
-            authentic camera-like texture to photos — so your content reads and
-            looks like it came from a person.
-          </p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link
-              href="/humanize-text"
-              className="w-full rounded-full bg-accent px-7 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-accent-dark sm:w-auto"
-            >
-              Try Text Humanizer free
-            </Link>
-            <Link
-              href="/humanize-photo"
-              className="w-full rounded-full border border-line px-7 py-3 text-center text-sm font-semibold text-ink transition-colors hover:bg-paper-dim sm:w-auto"
-            >
-              Try Photo Humanizer free
-            </Link>
-          </div>
-        </div>
 
-        <div className="mx-auto mt-16 grid max-w-4xl gap-5 sm:grid-cols-2">
-          <div className="rounded-2xl border border-line bg-paper-dim/40 p-6">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-ink-soft">
-              Before
-            </p>
-            <p className="text-[15px] leading-relaxed text-ink-soft">{BEFORE_EXAMPLE}</p>
-          </div>
-          <div className="rounded-2xl border border-accent/40 bg-accent-soft/40 p-6">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-accent-dark">
-              After
-            </p>
-            <p className="text-[15px] leading-relaxed">{AFTER_EXAMPLE}</p>
+      <section className="border-b border-line">
+        <div className="mx-auto max-w-6xl px-6 py-12 sm:py-16">
+          <h1 className="font-display max-w-3xl text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">
+            Writing that sounds like a person wrote it
+          </h1>
+          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-ink-soft">
+            {posts.length} researched guides on what makes prose read as human,
+            how AI detectors actually work and where they fail, and why
+            generated images still look off. Written and maintained in-house —
+            see our{" "}
+            <Link
+              href="/about/editorial"
+              className="text-accent-dark underline-offset-4 hover:underline"
+            >
+              editorial standards
+            </Link>
+            .
+          </p>
+
+          <div className="mt-7 flex flex-wrap gap-2">
+            {byCategory.map((group) => (
+              <Link
+                key={group.slug}
+                href={`/blog/category/${group.slug}`}
+                className="rounded-full border border-line px-4 py-1.5 text-sm font-medium text-ink-soft transition-colors hover:border-accent hover:text-accent-dark"
+              >
+                {group.label}
+                <span className="ml-1.5 text-xs text-ink-soft">
+                  {group.posts.length}
+                </span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="border-t border-line bg-paper-dim/30">
-        <div className="mx-auto max-w-6xl px-6 py-16">
-          <h2 className="font-display text-center text-3xl font-semibold tracking-tight">
-            How it works
+      {lead.map((post) => (
+        <section key={post.slug} className="border-b border-line">
+          <div className="mx-auto max-w-6xl px-6 py-10">
+            <Link
+              href={`/blog/${post.slug}`}
+              className="group block rounded-2xl border border-line bg-paper-dim/30 p-8 transition-colors hover:border-accent/60 sm:p-10"
+            >
+              <p className="text-xs font-semibold uppercase tracking-wide text-accent-dark">
+                Latest · {CATEGORIES[post.category].label}
+              </p>
+              <h2 className="font-display mt-3 max-w-3xl text-2xl font-semibold leading-tight group-hover:text-accent-dark sm:text-3xl">
+                {post.title}
+              </h2>
+              <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-ink-soft">
+                {post.answer || post.description}
+              </p>
+              <p className="mt-5 text-xs uppercase tracking-wide text-ink-soft">
+                {formatDate(post.date)} · {post.readingMinutes} min read
+              </p>
+            </Link>
+          </div>
+        </section>
+      ))}
+
+      {recent.length > 0 && (
+        <section className="mx-auto max-w-6xl px-6 py-12">
+          <div className="flex items-baseline justify-between">
+            <h2 className="font-display text-2xl font-semibold tracking-tight">
+              Recent articles
+            </h2>
+            <Link
+              href="/blog"
+              className="text-sm font-semibold text-accent-dark hover:underline"
+            >
+              All {posts.length} →
+            </Link>
+          </div>
+          <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {recent.map((post) => (
+              <ArticleCard key={post.slug} post={post} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section className="border-t border-line bg-paper-dim/20">
+        <div className="mx-auto max-w-6xl px-6 py-12">
+          <h2 className="font-display text-2xl font-semibold tracking-tight">
+            Everything we&rsquo;ve published
           </h2>
-          <div className="mt-10 grid gap-8 sm:grid-cols-3">
-            {STEPS.map((step, i) => (
-              <div key={step.title} className="text-center">
-                <div className="mx-auto mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-accent text-sm font-semibold text-white">
-                  {i + 1}
+          <p className="mt-2 max-w-2xl text-sm text-ink-soft">
+            The full archive, grouped by subject.
+          </p>
+
+          <div className="mt-8 grid gap-10 lg:grid-cols-2">
+            {byCategory.map((group) => (
+              <div key={group.slug}>
+                <div className="flex items-baseline justify-between gap-4 border-b border-line pb-3">
+                  <h3 className="font-display text-lg font-semibold">
+                    <Link
+                      href={`/blog/category/${group.slug}`}
+                      className="hover:text-accent-dark"
+                    >
+                      {group.label}
+                    </Link>
+                  </h3>
+                  <span className="shrink-0 text-xs uppercase tracking-wide text-ink-soft">
+                    {group.posts.length} articles
+                  </span>
                 </div>
-                <h3 className="font-semibold">{step.title}</h3>
-                <p className="mt-2 text-sm text-ink-soft">{step.body}</p>
+                <p className="mt-3 text-sm leading-relaxed text-ink-soft">
+                  {group.description}
+                </p>
+                <ul className="mt-4 divide-y divide-line/70">
+                  {group.posts.map((post) => (
+                    <li key={post.slug}>
+                      <Link
+                        href={`/blog/${post.slug}`}
+                        className="group flex items-baseline justify-between gap-4 py-2.5"
+                      >
+                        <span className="text-[15px] leading-snug group-hover:text-accent-dark">
+                          {post.title}
+                        </span>
+                        <span className="shrink-0 text-xs text-ink-soft">
+                          {post.readingMinutes} min
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 py-16">
-        <div className="grid gap-6 sm:grid-cols-2">
-          <div className="rounded-2xl border border-line p-8">
-            <h3 className="font-display text-xl font-semibold">Text Humanizer</h3>
-            <p className="mt-2 text-ink-soft">
-              Turn stiff, repetitive writing into natural prose with varied sentence
-              rhythm — while keeping every fact and idea intact.
-            </p>
-            <Link href="/humanize-text" className="mt-4 inline-block text-sm font-semibold text-accent-dark">
-              Try it free →
-            </Link>
-          </div>
-          <div className="rounded-2xl border border-line p-8">
-            <h3 className="font-display text-xl font-semibold">Photo Humanizer</h3>
-            <p className="mt-2 text-ink-soft">
-              Add luminance-aware grain and micro-detail so AI-generated or low-quality
-              images read as authentic photography.
-            </p>
-            <Link href="/humanize-photo" className="mt-4 inline-block text-sm font-semibold text-accent-dark">
-              Try it free →
-            </Link>
-          </div>
-        </div>
-      </section>
-
       <section className="border-t border-line">
-        <div className="mx-auto max-w-3xl px-6 py-16">
-          <h2 className="font-display text-center text-3xl font-semibold tracking-tight">
-            Frequently asked questions
+        <div className="mx-auto max-w-6xl px-6 py-12">
+          <h2 className="font-display text-2xl font-semibold tracking-tight">
+            Two free tools
           </h2>
-          <div className="mt-8 divide-y divide-line">
-            {FAQS.map((faq) => (
-              <details key={faq.q} className="group py-4">
-                <summary className="flex cursor-pointer list-none items-center justify-between font-medium">
-                  {faq.q}
-                  <span className="ml-4 text-ink-soft transition-transform group-open:rotate-45">+</span>
-                </summary>
-                <p className="mt-2 text-sm text-ink-soft">{faq.a}</p>
-              </details>
-            ))}
+          <p className="mt-2 max-w-2xl text-sm text-ink-soft">
+            Both run in the browser, need no signup, and are available from the
+            menu on every page.
+          </p>
+          <div className="mt-6 grid gap-5 sm:grid-cols-2">
+            <Link
+              href="/humanize-text"
+              className="group rounded-2xl border border-line p-6 transition-colors hover:border-accent/60 hover:bg-paper-dim/30"
+            >
+              <h3 className="font-display text-lg font-semibold group-hover:text-accent-dark">
+                Text Humanizer
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+                Rewrites stiff, repetitive prose with varied sentence rhythm
+                while keeping every fact and idea intact.
+              </p>
+              <span className="mt-4 inline-block text-sm font-semibold text-accent-dark">
+                Open the tool →
+              </span>
+            </Link>
+            <Link
+              href="/humanize-photo"
+              className="group rounded-2xl border border-line p-6 transition-colors hover:border-accent/60 hover:bg-paper-dim/30"
+            >
+              <h3 className="font-display text-lg font-semibold group-hover:text-accent-dark">
+                Photo Humanizer
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+                Adds luminance-aware grain and micro-detail so generated or
+                over-smoothed images read as real photography.
+              </p>
+              <span className="mt-4 inline-block text-sm font-semibold text-accent-dark">
+                Open the tool →
+              </span>
+            </Link>
           </div>
         </div>
       </section>
