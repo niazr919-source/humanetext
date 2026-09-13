@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import FaqSection from "@/components/FaqSection";
+import Explainer from "./Explainer";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://humanetext.com";
 
@@ -49,6 +50,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(APP_JSON_LD) }}
       />
       {children}
+      <Explainer />
       <FaqSection faqs={FAQS} />
     </>
   );

@@ -1,0 +1,111 @@
+---
+title: "How to Make an AI Image Look Like a Real Photo"
+description: "A workflow in the order your eye checks things: geometry first, then lighting, then colour, and texture last. Most people start at the end."
+date: "2026-09-13"
+category: "photography"
+answer: "Work in the order a viewer checks the image, which is the reverse of how most people edit. Fix geometry and anatomy first, because no amount of texture rescues an impossible hand. Then lighting, which is the most common giveaway — generated images light everything evenly with no dominant source. Then colour and lens behaviour. Add grain last, at final output size, because it is the finishing layer rather than the fix."
+faqs:
+  - q: "How do I make an AI image look more realistic?"
+    a: "In four passes, in this order: correct geometry and anatomy, give the scene one dominant light source with real shadows, break up the too-perfect colour and add lens behaviour like slight falloff at the edges, then apply grain at output size. Doing it in this order matters because texture cannot fix a lighting problem, and most people start with texture."
+  - q: "Why do AI images still look fake even when they are detailed?"
+    a: "Because the failures are structural rather than detailed. Lighting with no dominant source, depth of field that matches no real lens, and surfaces that are uniformly sharp all read as wrong before a viewer notices how good the rendering is. Detail is checked last, which is why adding more of it does not help."
+  - q: "Does adding grain make AI images look real?"
+    a: "It helps, and it is the last step rather than the fix. Grain supplies the evidence of capture that generated images lack, and it masks the plastic smoothness of over-rendered surfaces. It does nothing for composition, lighting or anatomy, because a viewer checks all three before reaching texture."
+  - q: "What is the biggest giveaway in an AI-generated image?"
+    a: "Lighting. Generated images tend to illuminate every part of the scene about equally, with soft shadows pointing in inconsistent directions and no single source you could point at. Real photographs almost always have a dominant light, which creates falloff, direction and shadows that agree with each other."
+  - q: "Should I add grain before or after resizing?"
+    a: "After. Grain is a property of the final image, not the file. Applied before a big downscale it disappears, and applied before an upscale it turns into blobs. Do it at the size the image will actually be seen at, then export."
+  - q: "Is it wrong to make AI images look like photographs?"
+    a: "It depends entirely on what you claim. For illustration, concept art, mockups or backgrounds, it is an ordinary stylistic choice. It crosses a line when the image is presented as a record of something that happened — news, evidence, insurance, scientific imaging, or any context where a viewer reasonably believes they are seeing a photograph."
+keywords: "how to make ai images look real, make ai art look like a photo, ai image realistic editing, add grain to ai image, fix ai generated photos"
+---
+
+The usual approach is to generate an image, decide it looks synthetic, and reach for a grain slider.
+
+That is the last step done first. A viewer's eye checks an image in a fixed order, and texture is near the end of it. Fixing the last thing while the first things are wrong produces a grainy image that still looks generated.
+
+Here is the order that actually works, which is the order your eye uses.
+
+## Pass 1: Geometry and anatomy
+
+Nothing below matters if this is wrong, because this is what a viewer registers first and fastest.
+
+**Hands, teeth, ears, eyes.** The classic failures, and still the most common. Count fingers. Check that both eyes look in the same direction and catch light in the same place.
+
+**Things that should be straight.** Door frames, window mullions, tiled floors, the horizon. Generated images frequently bend architecture in ways that are invisible until you look along a line.
+
+**Things that should repeat exactly.** Railings, fence posts, keyboard keys, book spines. Real repeated objects are identical; generated ones drift.
+
+**Symmetry that should not be perfect.** Faces are never quite symmetrical. Where a generated face is, it reads as uncanny even when every feature is rendered beautifully.
+
+If any of these are wrong, fix them or regenerate. There is no post-processing step that rescues an impossible hand — the full catalogue is in [why AI-generated images still look off](/blog/why-ai-generated-images-look-fake).
+
+## Pass 2: Lighting
+
+The biggest giveaway, and the one most people never address.
+
+Generated images tend to light everything roughly equally. Soft illumination from nowhere in particular, gentle shadows pointing in mildly disagreeing directions, no single source you could point at. It looks pleasant and it is deeply unphotographic, because almost every real photograph has a dominant light.
+
+**Establish one main source.** Decide where it is, then commit. Darken the parts of the frame facing away from it. Even a rough gradient does more for realism than any texture effect.
+
+**Check shadow direction agrees.** Every shadow in the frame should point away from the same light. Generated scenes frequently contain two or three implied sources with no physical explanation.
+
+**Add falloff.** Light gets weaker with distance. A background lit as brightly as the subject signals that no real light was involved.
+
+**Let something clip.** Real photographs have some genuinely blown highlights or blocked shadows. An image where every tone sits politely in the middle of the range looks rendered, because it is.
+
+## Pass 3: Colour and lens behaviour
+
+Two related problems: the colour is too clean, and there is no lens.
+
+**Break the uniform saturation.** Generated images often have every colour at similar intensity. Real photographs have dominant and recessive colours, usually because of the light rather than the subject.
+
+**Add a slight cast.** Real captures are rarely perfectly white-balanced. A small warm or cool shift toward what the light source would actually do is more convincing than neutral.
+
+**Darken the corners slightly.** Almost every real lens vignettes a little. Keep it subtle — a heavy vignette reads as a filter.
+
+**Give it one plane of focus.** This is the one people most often get wrong. Generated images tend toward uniform sharpness across the whole frame, or a fake blur that ignores distance. A real lens has a plane of focus, and sharpness falls off in front of and behind it, smoothly and according to distance. If the background is blurred, objects at the same distance as the subject should not be.
+
+## Pass 4: Texture, last
+
+Now, and only now, the grain.
+
+Generated images are unnaturally smooth — every surface rendered with even, artefact-free detail no sensor produces at ordinary settings. Grain supplies the missing evidence that light was actually counted, and it masks the plastic look of over-rendered skin and fabric.
+
+Three things decide whether it reads as real:
+
+**Apply it at output size.** Grain is a property of the final image, not the file. Added before a large downscale it vanishes; added before an upscale it becomes blobs.
+
+**Make it monochromatic and slightly soft.** Brightness variation, not colour speckle, and blurred by a fraction of a pixel so it has size. Pixel-sharp static is the signature of a bad grain effect.
+
+**Weight it to the midtones.** Film grain peaks where roughly half the crystals developed, which is the midtones — not the shadows, where digital sensor noise peaks. Applying the sensor-noise distribution while calling it film grain is how texture ends up approximately right and specifically wrong. The mechanism is in [what is film grain](/blog/what-is-film-grain-photography), and the distinction from sensor noise in [how camera sensor noise works](/blog/how-camera-sensor-noise-works).
+
+Our [Photo Humanizer](/humanize-photo) does exactly this pass — softened monochromatic noise, overlay blend so it scales with brightness, light sharpening, then a JPEG encode. It is a finishing step, not a repair, and it will not help with anything in passes one to three.
+
+If your image has smooth gradients showing stepped bands, grain fixes that particularly well, and [how to fix banding in gradients](/blog/fix-banding-in-gradients) covers it.
+
+## The test at the end
+
+Shrink the image to thumbnail size and look at it.
+
+Most generated-image tells survive at thumbnail scale, because they are structural: the lighting has no direction, the composition is suspiciously centred, the colour is uniformly saturated. Detail problems disappear at that size, which is the point — if it still looks wrong small, the problem is not texture.
+
+Then view it at 100%. That is where repeating textures and mushy fine detail show up.
+
+Something that passes both is usually finished.
+
+## How much is too much
+
+The most common mistake in pass four is overdoing it. **If you notice the grain, it is too strong.** The target is texture you would only miss if it were removed.
+
+Consistency matters more than amount. If you are producing a set, use the same treatment on all of them — varying grain across a series breaks the illusion faster than getting the level slightly wrong, because it signals post-processing rather than capture.
+
+And match it to the subject. Grain reads as authentic on reportage, portraits and low-light scenes, because those were historically shot on grainy stock. On a bright product shot it reads as an effect, because no photographer would have chosen fast film for that job.
+
+## Where this stops being a craft question
+
+All of the above is ordinary image editing, and for illustration, concept art, mockups, album covers or backgrounds it raises nothing.
+
+It becomes a different question when the image is presented as a record of something that happened. News, evidence, insurance claims, scientific imaging, and anything where a viewer reasonably believes they are looking at a photograph of a real event. Making a synthetic image more convincingly photographic in those contexts is not a style choice.
+
+Our [terms](/terms) rule that use out, and the reasoning — that authenticity breaks when a reader's reasonable belief about origin turns out to be false — is in [content authenticity in the AI era](/blog/content-authenticity-in-the-ai-era).

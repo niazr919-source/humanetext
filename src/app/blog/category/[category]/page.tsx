@@ -52,7 +52,15 @@ export default async function CategoryPage({
       </nav>
 
       <h1 className="font-display mt-3 text-4xl font-semibold tracking-tight">{meta.label}</h1>
-      <p className="mt-3 text-ink-soft">{meta.description}</p>
+      <div className="mt-4 space-y-4 text-[15px] leading-relaxed text-ink-soft">
+        {meta.intro.map((paragraph) => (
+          <p key={paragraph.slice(0, 40)}>{paragraph}</p>
+        ))}
+      </div>
+
+      <h2 className="font-display mt-12 text-xl font-semibold tracking-tight">
+        {posts.length} {posts.length === 1 ? "article" : "articles"}
+      </h2>
 
       <div className="mt-10 divide-y divide-line">
         {posts.map((post) => (

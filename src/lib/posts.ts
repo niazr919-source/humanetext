@@ -19,21 +19,41 @@ export const CATEGORIES = {
     label: "Writing craft",
     description:
       "How natural prose actually works — rhythm, word choice, structure, and the habits that make writing sound like a person.",
+    intro: [
+      "Writing that sounds human is not a style you put on. It is a set of specific, describable habits: varying how long your sentences run, committing to a claim instead of hedging it, reaching for the concrete noun rather than the abstract one, and cutting the material that delays your point without adding to it.",
+      "Those habits are learnable, and they are the same ones that make any prose better. They happen to be the habits language models suppress, because a system trained to produce inoffensive, evenly weighted text converges on the statistical middle of everything it read. That is why generated prose feels flat even when every sentence is correct.",
+      "These articles cover each habit on its own terms — what it is, why it matters, and how to practise it — with before-and-after examples throughout.",
+    ],
   },
   detection: {
     label: "AI detection",
     description:
       "What detectors measure, where they fail, and how to think clearly about false positives and accusations.",
+    intro: [
+      "AI detectors do not detect AI. They estimate how statistically predictable a passage is, and report that estimate as a percentage that looks far more authoritative than it is. There is no source document behind the number, nothing to inspect, and no way to audit how it was reached.",
+      "That distinction matters enormously if you are on the receiving end of one. Clear, conventional, carefully edited writing sits close to the statistical centre and scores high for that reason, which is why competent writers, second-language speakers and anyone using a grammar tool get flagged more often than careless ones.",
+      "These articles explain the mechanism honestly, set out what the research actually found, and give practical steps for anyone facing an accusation — including what to say, what evidence to keep, and what not to do.",
+    ],
   },
   photography: {
     label: "Photography",
     description:
       "Grain, sensor noise, and the visual details that separate a real photograph from a generated image.",
+    intro: [
+      "A photograph carries evidence that light was actually counted. Film grain is the visible structure of silver halide crystals; sensor noise is the statistical spread in photon arrival. Both are technically imperfections, and both are part of why a real image reads as real.",
+      "Generated pictures and heavily processed photographs lack that evidence. They arrive unnaturally smooth, evenly lit, and free of the artefacts any capture pipeline introduces — which is why they can look subtly wrong even when every individual detail is rendered correctly. The eye registers the absence of an expected imperfection.",
+      "These articles cover where that texture comes from, how film grain and digital noise actually differ, and which visual tells give a generated image away — in the order your eye checks them.",
+    ],
   },
   guides: {
     label: "Practical guides",
     description:
       "Step-by-step workflows, checklists, and tool comparisons you can apply to your own drafts.",
+    intro: [
+      "Knowing why prose sounds machine-made is one thing. Having a process you can run on a Tuesday afternoon is another, and this is where the procedures live.",
+      "Some are workflows: the order to edit a draft in, how to brief a model so the first draft is worth keeping, how to keep a record of your own writing before anyone asks for one. Some are decisions: whether a given use needs disclosing, which tool fits which problem, what a free tier is actually giving you.",
+      "All of them are written to be acted on rather than admired, and they say plainly where the limits are — including the limits of our own tools.",
+    ],
   },
 } as const;
 
